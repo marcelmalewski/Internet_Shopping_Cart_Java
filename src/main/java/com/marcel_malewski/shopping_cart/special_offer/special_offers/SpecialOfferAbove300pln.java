@@ -1,7 +1,8 @@
 package com.marcel_malewski.shopping_cart.special_offer.special_offers;
 
-import com.marcel_malewski.shopping_cart.list_of_products.ListOfProducts;
+import com.marcel_malewski.shopping_cart.list_of_products.BasicListOfProducts;
 import com.marcel_malewski.shopping_cart.Product;
+import com.marcel_malewski.shopping_cart.list_of_products.ListOfProducts;
 
 import java.util.Objects;
 
@@ -30,7 +31,7 @@ public class SpecialOfferAbove300pln extends SpecialOffer {
     @Override
     public boolean canApply(ListOfProducts listOfProducts) {
         //sum of real prices have to be bigger than 300
-        if(listOfProducts.sumPricesOfAllProducts() < 300)
+        if(listOfProducts.getSumPricesOfAllProducts() < 300)
             return false;
         //is some product is already free we can not use this special offer
         for (Product product : listOfProducts.getListOfProducts()) {

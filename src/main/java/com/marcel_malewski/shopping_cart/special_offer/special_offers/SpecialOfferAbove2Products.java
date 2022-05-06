@@ -1,7 +1,8 @@
 package com.marcel_malewski.shopping_cart.special_offer.special_offers;
 
-import com.marcel_malewski.shopping_cart.list_of_products.ListOfProducts;
+import com.marcel_malewski.shopping_cart.list_of_products.BasicListOfProducts;
 import com.marcel_malewski.shopping_cart.Product;
+import com.marcel_malewski.shopping_cart.list_of_products.ListOfProducts;
 
 import java.util.*;
 import java.util.stream.IntStream;

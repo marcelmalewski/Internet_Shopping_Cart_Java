@@ -1,6 +1,6 @@
 package com.marcel_malewski.shopping_cart;
 
-import com.marcel_malewski.shopping_cart.list_of_products.ListOfProducts;
+import com.marcel_malewski.shopping_cart.list_of_products.BasicListOfProducts;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -8,14 +8,14 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ListOfProductsTest {
-    ListOfProducts listOfProducts;
+class BasicListOfProductsTest {
+    BasicListOfProducts basicListOfProducts;
     Product product;
 
     @BeforeEach
     void init() {
         this.product = new Product("1", "test", 12.3);
-        this.listOfProducts = new ListOfProducts();
+        this.basicListOfProducts = new BasicListOfProducts();
     }
 
     @Test
@@ -23,8 +23,8 @@ class ListOfProductsTest {
         Product[] expectedResult = new Product[5];
         expectedResult[0] = this.product;
 
-        this.listOfProducts.addElement(this.product);
-        assertArrayEquals(expectedResult, this.listOfProducts.getListOfProducts());
+        this.basicListOfProducts.addProduct(this.product);
+        assertArrayEquals(expectedResult, this.basicListOfProducts.getListOfProducts());
     }
 
     @Test
@@ -32,32 +32,32 @@ class ListOfProductsTest {
         Product[] expectedResult = new Product[10];
         for(int i=0; i<=6; i++) {
             expectedResult[i] = this.product;
-            this.listOfProducts.addElement(this.product);
+            this.basicListOfProducts.addProduct(this.product);
         }
 
-        assertArrayEquals(expectedResult, this.listOfProducts.getListOfProducts());
+        assertArrayEquals(expectedResult, this.basicListOfProducts.getListOfProducts());
     }
 
     @Test
     void testIfProductIsRemovedFromListOfProducts() {
         Product[] expectedResult = new Product[5];
 
-        this.listOfProducts.addElement(this.product);
-        this.listOfProducts.removeElement(this.product);
+        this.basicListOfProducts.addProduct(this.product);
+        this.basicListOfProducts.removeProduct(this.product);
 
-        assertArrayEquals(expectedResult, this.listOfProducts.getListOfProducts());
+        assertArrayEquals(expectedResult, this.basicListOfProducts.getListOfProducts());
     }
 
     @Test
     void testIfRemoveElementReturnsTrueWhenElementIsRemoved() {
-        this.listOfProducts.addElement(this.product);
+        this.basicListOfProducts.addProduct(this.product);
 
-        assertTrue(this.listOfProducts.removeElement(this.product));
+        assertTrue(this.basicListOfProducts.removeProduct(this.product));
     }
 
     @Test
     void testIfRemoveElementReturnsFalseWhenElementIsNotRemoved() {
-        assertFalse(this.listOfProducts.removeElement(this.product));
+        assertFalse(this.basicListOfProducts.removeProduct(this.product));
     }
 
     @Test
@@ -66,13 +66,13 @@ class ListOfProductsTest {
 
         for(int i=0; i<6; i++) {
             tempProduct = new Product(String.valueOf(i), "test", 12.3);
-            this.listOfProducts.addElement(tempProduct);
+            this.basicListOfProducts.addProduct(tempProduct);
         }
 
         tempProduct = new Product(String.valueOf(3), "test", 12.3);
-        this.listOfProducts.removeElement(tempProduct);
+        this.basicListOfProducts.removeProduct(tempProduct);
 
-        assertEquals(5, this.listOfProducts.getListOfProducts().length);
+        assertEquals(5, this.basicListOfProducts.getListOfProducts().length);
     }
 
     @Test
@@ -81,15 +81,15 @@ class ListOfProductsTest {
         Product product2 = new Product("2", "testB", 12.3);
         Product product3 = new Product("3", "testC", 12.3);
 
-        this.listOfProducts.addElement(product1);
-        this.listOfProducts.addElement(product2);
-        this.listOfProducts.addElement(product3);
+        this.basicListOfProducts.addProduct(product1);
+        this.basicListOfProducts.addProduct(product2);
+        this.basicListOfProducts.addProduct(product3);
 
         Product[] expectedResult = new Product[2];
         expectedResult[0] = product1;
         expectedResult[1] = product2;
 
-        assertArrayEquals(expectedResult, this.listOfProducts.peekElements(2));
+        assertArrayEquals(expectedResult, this.basicListOfProducts.getProducts(2));
     }
 
     @Test
@@ -98,12 +98,12 @@ class ListOfProductsTest {
         testProduct.setDiscountPrice(2.1);
 
         for(int i=0; i<3; i++) {
-            this.listOfProducts.addElement(testProduct);
+            this.basicListOfProducts.addProduct(testProduct);
         }
 
         double expectedResult = 6.3;
 
-        assertEquals(expectedResult, this.listOfProducts.sumDiscountPricesOfAllProducts());
+        assertEquals(expectedResult, this.basicListOfProducts.getSumDiscountPricesOfAllProducts());
     }
 
     @Test
@@ -112,12 +112,12 @@ class ListOfProductsTest {
         testProduct.setDiscountPrice(2.1);
 
         for(int i=0; i<3; i++) {
-            this.listOfProducts.addElement(testProduct);
+            this.basicListOfProducts.addProduct(testProduct);
         }
 
         double expectedResult = 9.3;
 
-        assertEquals(expectedResult, this.listOfProducts.sumPricesOfAllProducts());
+        assertEquals(expectedResult, this.basicListOfProducts.getSumPricesOfAllProducts());
     }
 
     @Test
@@ -125,10 +125,10 @@ class ListOfProductsTest {
         Product testProduct1 = new Product("1", "test", 3.1);
         Product testProduct2 = new Product("2", "test", 2.1);
 
-        this.listOfProducts.addElement(testProduct1);
-        this.listOfProducts.addElement(testProduct2);
+        this.basicListOfProducts.addProduct(testProduct1);
+        this.basicListOfProducts.addProduct(testProduct2);
 
-        assertTrue(this.listOfProducts.getCheapestProduct().isPresent());
+        assertTrue(this.basicListOfProducts.getCheapestProduct().isPresent());
     }
 
     @Test
@@ -136,12 +136,12 @@ class ListOfProductsTest {
         Product testProduct1 = new Product("1", "test", 3.1);
         Product testProduct2 = new Product("2", "test", 2.1);
 
-        this.listOfProducts.addElement(testProduct1);
-        this.listOfProducts.addElement(testProduct2);
+        this.basicListOfProducts.addProduct(testProduct1);
+        this.basicListOfProducts.addProduct(testProduct2);
 
         Optional<Product> expectedResult = Optional.of(testProduct2);
 
-        assertEquals(expectedResult, this.listOfProducts.getCheapestProduct());
+        assertEquals(expectedResult, this.basicListOfProducts.getCheapestProduct());
     }
 
     @Test
@@ -149,10 +149,10 @@ class ListOfProductsTest {
         Product testProduct1 = new Product("1", "test", 3.1);
         Product testProduct2 = new Product("2", "test", 2.1);
 
-        this.listOfProducts.addElement(testProduct1);
-        this.listOfProducts.addElement(testProduct2);
+        this.basicListOfProducts.addProduct(testProduct1);
+        this.basicListOfProducts.addProduct(testProduct2);
 
-        assertTrue(this.listOfProducts.getMostExpensiveProduct().isPresent());
+        assertTrue(this.basicListOfProducts.getMostExpensiveProduct().isPresent());
     }
 
     @Test
@@ -160,11 +160,11 @@ class ListOfProductsTest {
         Product testProduct1 = new Product("1", "test", 3.1);
         Product testProduct2 = new Product("2", "test", 2.1);
 
-        this.listOfProducts.addElement(testProduct1);
-        this.listOfProducts.addElement(testProduct2);
+        this.basicListOfProducts.addProduct(testProduct1);
+        this.basicListOfProducts.addProduct(testProduct2);
 
         Optional<Product> ExpensiveProduct = Optional.of(testProduct1);
 
-        assertEquals(ExpensiveProduct, this.listOfProducts.getMostExpensiveProduct());
+        assertEquals(ExpensiveProduct, this.basicListOfProducts.getMostExpensiveProduct());
     }
 }

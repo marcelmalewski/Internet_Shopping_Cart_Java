@@ -1,5 +1,7 @@
 package com.marcel_malewski.shopping_cart;
 
+import com.marcel_malewski.shopping_cart.list_of_products.BasicListOfProducts;
+import com.marcel_malewski.shopping_cart.list_of_products.ListOfProducts;
 import com.marcel_malewski.shopping_cart.special_offer.special_offer_orders.ApplySpecialOffer;
 import com.marcel_malewski.shopping_cart.special_offer.special_offers.*;
 import com.marcel_malewski.shopping_cart.special_offer.special_offer_orders.SpecialOfferOrder;
@@ -10,10 +12,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ShoppingCartTest {
     ShoppingCart shoppingCart;
-            
+    ListOfProducts basicListOfProducts;
+
     @BeforeEach
     void init() {
-        this.shoppingCart = new ShoppingCart();
+        this.basicListOfProducts = new BasicListOfProducts();
+        this.shoppingCart = new ShoppingCart(this.basicListOfProducts);
     }
     @Test
     void testIfGetCheapestProductsWillReturnCorrectProducts() {
@@ -62,7 +66,7 @@ class ShoppingCartTest {
         expectedResult[1] = product2;
         expectedResult[2] = product1;
 
-        assertArrayEquals(expectedResult, this.shoppingCart.getListOfProducts());
+        assertArrayEquals(expectedResult, this.shoppingCart.getBasicListOfProducts());
     }
 
     @Test
@@ -78,7 +82,7 @@ class ShoppingCartTest {
         expectedResult[0] = product2;
         expectedResult[1] = product1;
 
-        assertArrayEquals(expectedResult, this.shoppingCart.getListOfProducts());
+        assertArrayEquals(expectedResult, this.shoppingCart.getBasicListOfProducts());
     }
 
     @Test
@@ -94,7 +98,7 @@ class ShoppingCartTest {
         expectedResult[0] = product2;
         expectedResult[1] = product1;
 
-        assertArrayEquals(expectedResult, this.shoppingCart.getListOfProducts());
+        assertArrayEquals(expectedResult, this.shoppingCart.getBasicListOfProducts());
     }
 
     @Test
@@ -110,7 +114,7 @@ class ShoppingCartTest {
         expectedResult[0] = product2;
         expectedResult[1] = product1;
 
-        assertArrayEquals(expectedResult, this.shoppingCart.getListOfProducts());
+        assertArrayEquals(expectedResult, this.shoppingCart.getBasicListOfProducts());
     }
 
     @Test
@@ -126,7 +130,7 @@ class ShoppingCartTest {
         expectedResult[0] = product2;
         expectedResult[1] = product1;
 
-        assertArrayEquals(expectedResult, this.shoppingCart.getListOfProducts());
+        assertArrayEquals(expectedResult, this.shoppingCart.getBasicListOfProducts());
     }
 
     @Test
@@ -212,7 +216,7 @@ class ShoppingCartTest {
         expectedResult[0] = testProduct1;
         expectedResult[1] = testProduct2;
 
-        assertArrayEquals(expectedResult, this.shoppingCart.getListOfProducts());
+        assertArrayEquals(expectedResult, this.shoppingCart.getBasicListOfProducts());
     }
 
     @Test
@@ -291,7 +295,7 @@ class ShoppingCartTest {
         expectedResult[0] = testProduct1;
         expectedResult[1] = testProduct2;
 
-        assertArrayEquals(expectedResult , this.shoppingCart.getListOfProducts());
+        assertArrayEquals(expectedResult , this.shoppingCart.getBasicListOfProducts());
     }
 
     @Test
@@ -367,7 +371,7 @@ class ShoppingCartTest {
         expectedResult[1] = testProduct3;
         expectedResult[2] = testProduct2;
 
-        assertArrayEquals(expectedResult , this.shoppingCart.getListOfProducts());
+        assertArrayEquals(expectedResult , this.shoppingCart.getBasicListOfProducts());
     }
 
     @Test
@@ -409,7 +413,7 @@ class ShoppingCartTest {
 
         Product testProductMug = new Product("4", "Mug", 0);
 
-        assertEquals(testProductMug, this.shoppingCart.getListOfProducts()[1]);
+        assertEquals(testProductMug, this.shoppingCart.getBasicListOfProducts()[1]);
     }
 
     @Test
