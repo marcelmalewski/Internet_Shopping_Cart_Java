@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Product implements Comparable<Product> {
+public class Product {
     //code is unique for every product
     private final String code;
     private final String name;
@@ -17,11 +17,6 @@ public class Product implements Comparable<Product> {
         this.name = name;
         this.price = price;
         this.discountPrice = price;
-    }
-
-    @Override
-    public int compareTo(Product product) {
-        return this.name.compareTo(product.getName());
     }
 
     @Override

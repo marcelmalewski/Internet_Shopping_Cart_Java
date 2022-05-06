@@ -14,10 +14,8 @@ public interface ListOfProducts {
     Optional<Product> getMostExpensiveProduct();
     double getSumDiscountPricesOfAllProducts();
     double getSumPricesOfAllProducts();
-    
+
+    //defalt sort a pozostale sortowania przkazujemy przy tworzeniu ,ale przy tworzeniu listy bo liste przekazujemy
     void defaultSort();
-    void sortProductsAscByPrice();
-    void sortProductsDescByPrice();
-    void sortProductsAscByName();
-    void sortProductsDescByName();
+    void sort(String sortName);
 }

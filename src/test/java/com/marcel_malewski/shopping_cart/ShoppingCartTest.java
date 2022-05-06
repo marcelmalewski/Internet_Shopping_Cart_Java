@@ -66,7 +66,7 @@ class ShoppingCartTest {
         expectedResult[1] = product2;
         expectedResult[2] = product1;
 
-        assertArrayEquals(expectedResult, this.shoppingCart.getBasicListOfProducts());
+        assertArrayEquals(expectedResult, this.shoppingCart.getListOfProducts());
     }
 
     @Test
@@ -82,7 +82,7 @@ class ShoppingCartTest {
         expectedResult[0] = product2;
         expectedResult[1] = product1;
 
-        assertArrayEquals(expectedResult, this.shoppingCart.getBasicListOfProducts());
+        assertArrayEquals(expectedResult, this.shoppingCart.getListOfProducts());
     }
 
     @Test
@@ -98,7 +98,7 @@ class ShoppingCartTest {
         expectedResult[0] = product2;
         expectedResult[1] = product1;
 
-        assertArrayEquals(expectedResult, this.shoppingCart.getBasicListOfProducts());
+        assertArrayEquals(expectedResult, this.shoppingCart.getListOfProducts());
     }
 
     @Test
@@ -114,7 +114,7 @@ class ShoppingCartTest {
         expectedResult[0] = product2;
         expectedResult[1] = product1;
 
-        assertArrayEquals(expectedResult, this.shoppingCart.getBasicListOfProducts());
+        assertArrayEquals(expectedResult, this.shoppingCart.getListOfProducts());
     }
 
     @Test
@@ -130,7 +130,7 @@ class ShoppingCartTest {
         expectedResult[0] = product2;
         expectedResult[1] = product1;
 
-        assertArrayEquals(expectedResult, this.shoppingCart.getBasicListOfProducts());
+        assertArrayEquals(expectedResult, this.shoppingCart.getListOfProducts());
     }
 
     @Test
@@ -148,11 +148,8 @@ class ShoppingCartTest {
         SpecialOffer specialOfferAbove300pln = new SpecialOfferAbove300pln("specialOfferAbove300pln");
         SpecialOfferOrder applySpecialOffer1 = new ApplySpecialOffer(specialOfferAbove300pln);
 
-        //create array of special offers orders
-        SpecialOfferOrder[] specialOfferOrders = {applySpecialOffer1};
-
         //apply special offers orders
-        this.shoppingCart.applySpecialOffers(specialOfferOrders);
+        this.shoppingCart.applySpecialOffers(applySpecialOffer1);
 
         String expectedResult = "specialOfferAbove300pln";
 
@@ -176,11 +173,8 @@ class ShoppingCartTest {
         SpecialOfferOrder applySpecialOffer1 = new ApplySpecialOffer(specialOfferAbove300pln);
         SpecialOfferOrder applySpecialOffer2 = new ApplySpecialOffer(specialOfferAbove300pln);
 
-        //create array of special offers orders
-        SpecialOfferOrder[] specialOfferOrders = {applySpecialOffer1, applySpecialOffer2};
-
         //apply special offers orders
-        this.shoppingCart.applySpecialOffers(specialOfferOrders);
+        this.shoppingCart.applySpecialOffers(applySpecialOffer1, applySpecialOffer2);
 
         int expectedResult = 1;
 
@@ -203,11 +197,8 @@ class ShoppingCartTest {
         SpecialOffer specialOfferAbove300pln = new SpecialOfferAbove300pln("specialOfferAbove300pln");
         SpecialOfferOrder applySpecialOffer1 = new ApplySpecialOffer(specialOfferAbove300pln);
 
-        //create array of special offers orders
-        SpecialOfferOrder[] specialOfferOrders = {applySpecialOffer1};
-
         //apply special offers orders
-        this.shoppingCart.applySpecialOffers(specialOfferOrders);
+        this.shoppingCart.applySpecialOffers(applySpecialOffer1);
 
         testProduct1.setDiscountPrice(950);
         testProduct2.setDiscountPrice(9.5);
@@ -216,7 +207,7 @@ class ShoppingCartTest {
         expectedResult[0] = testProduct1;
         expectedResult[1] = testProduct2;
 
-        assertArrayEquals(expectedResult, this.shoppingCart.getBasicListOfProducts());
+        assertArrayEquals(expectedResult, this.shoppingCart.getListOfProducts());
     }
 
     @Test
@@ -234,11 +225,8 @@ class ShoppingCartTest {
         SpecialOffer specialOfferAbove300pln = new SpecialOfferAbove300pln("specialOfferAbove300pln");
         SpecialOfferOrder applySpecialOffer1 = new ApplySpecialOffer(specialOfferAbove300pln);
 
-        //create array of special offers orders
-        SpecialOfferOrder[] specialOfferOrders = {applySpecialOffer1};
-
         //apply special offers orders
-        this.shoppingCart.applySpecialOffers(specialOfferOrders);
+        this.shoppingCart.applySpecialOffers(applySpecialOffer1);
 
         int expectedResult = 0;
 
@@ -260,11 +248,8 @@ class ShoppingCartTest {
         SpecialOffer specialOfferAbove300pln = new SpecialOfferAbove300pln("specialOfferAbove300pln");
         SpecialOfferOrder applySpecialOffer1 = new ApplySpecialOffer(specialOfferAbove300pln);
 
-        //create array of special offers orders
-        SpecialOfferOrder[] specialOfferOrders = {applySpecialOffer1};
-
         //apply special offers orders
-        this.shoppingCart.applySpecialOffers(specialOfferOrders);
+        this.shoppingCart.applySpecialOffers(applySpecialOffer1);
 
         int expectedResult = 0;
 
@@ -284,9 +269,7 @@ class ShoppingCartTest {
                 new SpecialOfferThirtyPercentForProduct(testProduct1, "specialOfferThirtyPercentForProduct");
         SpecialOfferOrder applySpecialOffer1 = new ApplySpecialOffer(specialOfferThirtyPercentForProduct);
 
-        SpecialOfferOrder[] specialOfferOrders = {applySpecialOffer1};
-
-        this.shoppingCart.applySpecialOffers(specialOfferOrders);
+        this.shoppingCart.applySpecialOffers(applySpecialOffer1);
 
         testProduct1.setDiscountPrice(7);
         testProduct2.setDiscountPrice(10);
@@ -295,7 +278,7 @@ class ShoppingCartTest {
         expectedResult[0] = testProduct1;
         expectedResult[1] = testProduct2;
 
-        assertArrayEquals(expectedResult , this.shoppingCart.getBasicListOfProducts());
+        assertArrayEquals(expectedResult , this.shoppingCart.getListOfProducts());
     }
 
     @Test
@@ -312,9 +295,7 @@ class ShoppingCartTest {
                 new SpecialOfferThirtyPercentForProduct(testProduct3, "specialOfferThirtyPercentForProduct");
         SpecialOfferOrder applySpecialOffer1 = new ApplySpecialOffer(specialOfferThirtyPercentForProduct);
 
-        SpecialOfferOrder[] specialOfferOrders = {applySpecialOffer1};
-
-        this.shoppingCart.applySpecialOffers(specialOfferOrders);
+        this.shoppingCart.applySpecialOffers(applySpecialOffer1);
 
         int expectedResult = 0;
 
@@ -334,9 +315,7 @@ class ShoppingCartTest {
                 new SpecialOfferThirtyPercentForProduct(testProduct2, "specialOfferThirtyPercentForProduct");
         SpecialOfferOrder applySpecialOffer1 = new ApplySpecialOffer(specialOfferThirtyPercentForProduct);
 
-        SpecialOfferOrder[] specialOfferOrders = {applySpecialOffer1};
-
-        this.shoppingCart.applySpecialOffers(specialOfferOrders);
+        this.shoppingCart.applySpecialOffers(applySpecialOffer1);
 
         int expectedResult = 0;
 
@@ -357,9 +336,7 @@ class ShoppingCartTest {
         SpecialOffer specialOfferAbove2Products = new SpecialOfferAbove2Products("specialOfferAbove2Products");
         SpecialOfferOrder applySpecialOffer1 = new ApplySpecialOffer(specialOfferAbove2Products);
 
-        SpecialOfferOrder[] specialOfferOrders = {applySpecialOffer1};
-
-        this.shoppingCart.applySpecialOffers(specialOfferOrders);
+        this.shoppingCart.applySpecialOffers(applySpecialOffer1);
 
         testProduct1.setDiscountPrice(12);
         testProduct2.setDiscountPrice(0);
@@ -371,7 +348,7 @@ class ShoppingCartTest {
         expectedResult[1] = testProduct3;
         expectedResult[2] = testProduct2;
 
-        assertArrayEquals(expectedResult , this.shoppingCart.getBasicListOfProducts());
+        assertArrayEquals(expectedResult , this.shoppingCart.getListOfProducts());
     }
 
     @Test
@@ -388,9 +365,7 @@ class ShoppingCartTest {
         SpecialOffer specialOfferAbove2Products = new SpecialOfferAbove2Products("specialOfferAbove2Products");
         SpecialOfferOrder applySpecialOffer1 = new ApplySpecialOffer(specialOfferAbove2Products);
 
-        SpecialOfferOrder[] specialOfferOrders = {applySpecialOffer1};
-
-        this.shoppingCart.applySpecialOffers(specialOfferOrders);
+        this.shoppingCart.applySpecialOffers(applySpecialOffer1);
 
         int expectedResult = 0;
 
@@ -407,13 +382,11 @@ class ShoppingCartTest {
         SpecialOffer specialOfferAbove200WitFreeMug = new SpecialOfferAbove200WitFreeMug("specialOfferAbove200WitFreeMug");
         SpecialOfferOrder applySpecialOffer1 = new ApplySpecialOffer(specialOfferAbove200WitFreeMug);
 
-        SpecialOfferOrder[] specialOfferOrders = {applySpecialOffer1};
-
-        this.shoppingCart.applySpecialOffers(specialOfferOrders);
+        this.shoppingCart.applySpecialOffers(applySpecialOffer1);
 
         Product testProductMug = new Product("4", "Mug", 0);
 
-        assertEquals(testProductMug, this.shoppingCart.getBasicListOfProducts()[1]);
+        assertEquals(testProductMug, this.shoppingCart.getListOfProducts()[1]);
     }
 
     @Test
@@ -426,9 +399,7 @@ class ShoppingCartTest {
         SpecialOffer specialOfferAbove200WitFreeMug = new SpecialOfferAbove200WitFreeMug("specialOfferAbove200WitFreeMug");
         SpecialOfferOrder applySpecialOffer1 = new ApplySpecialOffer(specialOfferAbove200WitFreeMug);
 
-        SpecialOfferOrder[] specialOfferOrders = {applySpecialOffer1};
-
-        this.shoppingCart.applySpecialOffers(specialOfferOrders);
+        this.shoppingCart.applySpecialOffers(applySpecialOffer1);
 
         int expectedResult = 0;
 
@@ -447,9 +418,7 @@ class ShoppingCartTest {
         SpecialOffer specialOfferAbove200WitFreeMug = new SpecialOfferAbove200WitFreeMug("specialOfferAbove200WitFreeMug");
         SpecialOfferOrder applySpecialOffer1 = new ApplySpecialOffer(specialOfferAbove200WitFreeMug);
 
-        SpecialOfferOrder[] specialOfferOrders = {applySpecialOffer1};
-
-        this.shoppingCart.applySpecialOffers(specialOfferOrders);
+        this.shoppingCart.applySpecialOffers(applySpecialOffer1);
 
         int expectedResult = 0;
 

@@ -39,7 +39,7 @@ public class ShoppingCart {
     //here we combine some methods of listOfProducts
     public Product[] getCheapestProducts(int numberOfProducts) {
         ListOfProducts tempListOfProducts = this.listOfProducts;
-        tempListOfProducts.sortProductsAscByPrice();
+        tempListOfProducts.sort("AscByPrice");
 
         return tempListOfProducts.getProducts(numberOfProducts);
     }
@@ -52,7 +52,7 @@ public class ShoppingCart {
     //here we combine some methods of listOfProducts
     public Product[] getMostExpensiveProducts(int numberOfProducts) {
         ListOfProducts tempListOfProducts = this.listOfProducts;
-        tempListOfProducts.sortProductsDescByPrice();
+        tempListOfProducts.sort("DescByPrice");
 
         return tempListOfProducts.getProducts(numberOfProducts);
     }
@@ -83,26 +83,26 @@ public class ShoppingCart {
     }
 
     //invoker
-    public void applySpecialOffers(SpecialOfferOrder[] specialOfferOrders) throws Exception {
+    public void applySpecialOffers(SpecialOfferOrder ... specialOfferOrders) throws Exception {
         //array of concreteCommands
         //return special offer that were not used
         for(SpecialOfferOrder specialOfferOrder : specialOfferOrders) {
-            if(!this.currentSpecialOffers.contains(specialOfferOrder.getSpecialOffer().getName())){
+            if(!this.currentSpecialOffers.contains(specialOfferOrder.specialOffer().getName())){
                 if(specialOfferOrder.execute(this.listOfProducts)){
-                    this.currentSpecialOffers.add(specialOfferOrder.getSpecialOffer().getName());
+                    this.currentSpecialOffers.add(specialOfferOrder.specialOffer().getName());
                 }
             }
         }
     }
 
     //we sort only when we return elements
-    public Product[] getlistOfProducts() {
+    public Product[] getListOfProducts() {
         switch (currentSortType) {
             case "Default" -> this.listOfProducts.defaultSort();
-            case "AscByPrice" -> this.listOfProducts.sortProductsAscByPrice();
-            case "DescByPrice" -> this.listOfProducts.sortProductsDescByPrice();
-            case "AscByName" -> this.listOfProducts.sortProductsAscByName();
-            case "DescByName" -> this.listOfProducts.sortProductsDescByName();
+            case "AscByPrice" -> this.listOfProducts.sort("AscByPrice");
+            case "DescByPrice" -> this.listOfProducts.sort("DescByPrice");
+            case "AscByName" -> this.listOfProducts.sort("AscByName");
+            case "DescByName" -> this.listOfProducts.sort("DescByName");
         }
         return listOfProducts.getListOfProducts();
     }

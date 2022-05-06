@@ -1,6 +1,7 @@
 package com.marcel_malewski.shopping_cart.list_of_products;
 
 import com.marcel_malewski.shopping_cart.Product;
+import com.marcel_malewski.shopping_cart.list_of_products.sort.SortProducts;
 import lombok.Getter;
 
 import java.util.*;
@@ -8,12 +9,17 @@ import java.util.*;
 @Getter
 public class BasicListOfProducts implements ListOfProducts {
     private Product[] listOfProducts;
-    private final SortProducts sortProducts;
+    private SortProducts[] availableSortTypes;
 
     public BasicListOfProducts() {
         //we start with 5 free spaces
         this.listOfProducts = new Product[5];
-        this.sortProducts = new SortProducts(this.listOfProducts);
+    }
+
+    public BasicListOfProducts(SortProducts ... sortProducts) {
+        //we start with 5 free spaces
+        this.listOfProducts = new Product[5];
+        this.availableSortTypes = sortProducts;
     }
 
     private OptionalInt getIndexOfEmptySpace(Product[] listOfProducts) {
@@ -166,23 +172,19 @@ public class BasicListOfProducts implements ListOfProducts {
     @Override
     public void defaultSort() {
         //desc by price then alphabetical by name
-        this.sortProducts.defaultSort();
+        Comparator<Product> productComparator
+                = Comparator.comparing(Product::getPrice)
+                .reversed()
+                .thenComparing(Product::getName);
+
+        Comparator<Product> productNameComparator_nullLast
+                = Comparator.nullsLast(productComparator);
+
+        Arrays.sort(this.listOfProducts, productNameComparator_nullLast);
     }
 
     @Override
-    public void sortProductsAscByPrice() {
-        this.sortProducts.sortProductsAscByPrice();
-    }
-    @Override
-    public void sortProductsDescByPrice() {
-        this.sortProducts.sortProductsDescByPrice();
-    }
-    @Override
-    public void sortProductsAscByName() {
-        this.sortProducts.sortProductsAscByName();
-    }
-    @Override
-    public void sortProductsDescByName() {
-        this.sortProducts.sortProductsDescByName();
+    public void sort(String sortType) {
+
     }
 }

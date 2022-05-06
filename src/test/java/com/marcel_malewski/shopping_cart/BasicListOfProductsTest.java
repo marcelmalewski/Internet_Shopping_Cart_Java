@@ -10,29 +10,29 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BasicListOfProductsTest {
     BasicListOfProducts basicListOfProducts;
-    Product product;
 
     @BeforeEach
     void init() {
-        this.product = new Product("1", "test", 12.3);
         this.basicListOfProducts = new BasicListOfProducts();
     }
 
     @Test
     void testIfProductIsAddedToListOfProducts() {
+        Product product = new Product("1", "test", 12.3);
         Product[] expectedResult = new Product[5];
-        expectedResult[0] = this.product;
+        expectedResult[0] = product;
 
-        this.basicListOfProducts.addProduct(this.product);
+        this.basicListOfProducts.addProduct(product);
         assertArrayEquals(expectedResult, this.basicListOfProducts.getListOfProducts());
     }
 
     @Test
     void testIfWeCanAddMoreThan5Products() {
+        Product product = new Product("1", "test", 12.3);
         Product[] expectedResult = new Product[10];
         for(int i=0; i<=6; i++) {
-            expectedResult[i] = this.product;
-            this.basicListOfProducts.addProduct(this.product);
+            expectedResult[i] = product;
+            this.basicListOfProducts.addProduct(product);
         }
 
         assertArrayEquals(expectedResult, this.basicListOfProducts.getListOfProducts());
@@ -40,24 +40,28 @@ class BasicListOfProductsTest {
 
     @Test
     void testIfProductIsRemovedFromListOfProducts() {
+        Product product = new Product("1", "test", 12.3);
         Product[] expectedResult = new Product[5];
 
-        this.basicListOfProducts.addProduct(this.product);
-        this.basicListOfProducts.removeProduct(this.product);
+        this.basicListOfProducts.addProduct(product);
+        this.basicListOfProducts.removeProduct(product);
 
         assertArrayEquals(expectedResult, this.basicListOfProducts.getListOfProducts());
     }
 
     @Test
     void testIfRemoveElementReturnsTrueWhenElementIsRemoved() {
-        this.basicListOfProducts.addProduct(this.product);
+        Product product = new Product("1", "test", 12.3);
+        this.basicListOfProducts.addProduct(product);
 
-        assertTrue(this.basicListOfProducts.removeProduct(this.product));
+        assertTrue(this.basicListOfProducts.removeProduct(product));
     }
 
     @Test
     void testIfRemoveElementReturnsFalseWhenElementIsNotRemoved() {
-        assertFalse(this.basicListOfProducts.removeProduct(this.product));
+        Product product = new Product("1", "test", 12.3);
+
+        assertFalse(this.basicListOfProducts.removeProduct(product));
     }
 
     @Test
