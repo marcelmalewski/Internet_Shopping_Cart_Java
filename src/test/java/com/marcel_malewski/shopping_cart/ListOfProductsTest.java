@@ -1,6 +1,6 @@
-package com.marcel_malewski.lab3;
+package com.marcel_malewski.shopping_cart;
 
-import com.marcel_malewski.lab3.list_of_products.ListOfProducts;
+import com.marcel_malewski.shopping_cart.list_of_products.ListOfProducts;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

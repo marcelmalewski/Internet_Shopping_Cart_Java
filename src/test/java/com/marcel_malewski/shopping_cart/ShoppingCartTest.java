@@ -1,8 +1,8 @@
-package com.marcel_malewski.lab3;
+package com.marcel_malewski.shopping_cart;
 
-import com.marcel_malewski.lab3.special_offer.special_offer_orders.ApplySpecialOffer;
-import com.marcel_malewski.lab3.special_offer.special_offers.*;
-import com.marcel_malewski.lab3.special_offer.special_offer_orders.SpecialOfferOrder;
+import com.marcel_malewski.shopping_cart.special_offer.special_offer_orders.ApplySpecialOffer;
+import com.marcel_malewski.shopping_cart.special_offer.special_offers.*;
+import com.marcel_malewski.shopping_cart.special_offer.special_offer_orders.SpecialOfferOrder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -409,7 +409,7 @@ class ShoppingCartTest {
 
         Product testProductMug = new Product("4", "Mug", 0);
 
-        assertTrue(testProductMug.equalProducts(this.shoppingCart.getListOfProducts()[1]));
+        assertEquals(testProductMug, this.shoppingCart.getListOfProducts()[1]);
     }
 
     @Test

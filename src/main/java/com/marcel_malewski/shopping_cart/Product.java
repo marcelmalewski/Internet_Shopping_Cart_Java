@@ -1,4 +1,4 @@
-package com.marcel_malewski.lab3;
+package com.marcel_malewski.shopping_cart;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -24,7 +24,16 @@ public class Product implements Comparable<Product> {
         return this.name.compareTo(product.getName());
     }
 
-    public boolean equalProducts(Product product) {
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+
+        if (!(o instanceof Product product)) {
+            return false;
+        }
+
         return this.code.equals(product.getCode()) &&
                 this.name.equals(product.getName()) &&
                 this.price == product.getPrice() &&

@@ -1,7 +1,7 @@
-package com.marcel_malewski.lab3.special_offer.special_offers;
+package com.marcel_malewski.shopping_cart.special_offer.special_offers;
 
-import com.marcel_malewski.lab3.list_of_products.ListOfProducts;
-import com.marcel_malewski.lab3.Product;
+import com.marcel_malewski.shopping_cart.list_of_products.ListOfProducts;
+import com.marcel_malewski.shopping_cart.Product;
 
 import java.util.Objects;
 

@@ -1,7 +1,7 @@
-package com.marcel_malewski.lab3;
+package com.marcel_malewski.shopping_cart;
 
-import com.marcel_malewski.lab3.list_of_products.ListOfProducts;
-import com.marcel_malewski.lab3.special_offer.special_offer_orders.SpecialOfferOrder;
+import com.marcel_malewski.shopping_cart.list_of_products.ListOfProducts;
+import com.marcel_malewski.shopping_cart.special_offer.special_offer_orders.SpecialOfferOrder;
 import lombok.Getter;
 
 import java.util.*;
@@ -11,7 +11,7 @@ public class ShoppingCart {
     private final ListOfProducts listOfProducts;
     //remember special offers to faster inform if special offer can be used
     private final ArrayList<String> currentSpecialOffers;
-    //we need products to be sorted only when we return them
+    //products are sorted only when we return them
     private String currentSortType;
 
     public ShoppingCart() {

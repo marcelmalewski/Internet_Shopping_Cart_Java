@@ -1,7 +1,6 @@
-package com.marcel_malewski.lab3.list_of_products;
+package com.marcel_malewski.shopping_cart.list_of_products;
 
-import com.marcel_malewski.lab3.Product;
-import com.marcel_malewski.lab3.list_of_products.List;
+import com.marcel_malewski.shopping_cart.Product;
 import lombok.Getter;
 
 import java.util.*;

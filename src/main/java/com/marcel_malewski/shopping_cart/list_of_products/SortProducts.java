@@ -1,12 +1,12 @@
-package com.marcel_malewski.lab3.list_of_products;
+package com.marcel_malewski.shopping_cart.list_of_products;
 
-import com.marcel_malewski.lab3.Product;
+import com.marcel_malewski.shopping_cart.Product;
 
 import java.util.Arrays;
 import java.util.Comparator;
 
 public class SortProducts {
-    private final Product[] listOfProducts;
+    public final Product[] listOfProducts;
 
     public SortProducts(Product[] listOfProducts) {
         this.listOfProducts = listOfProducts;
