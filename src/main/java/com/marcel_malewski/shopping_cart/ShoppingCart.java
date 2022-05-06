@@ -1,6 +1,5 @@
 package com.marcel_malewski.shopping_cart;
 
-import com.marcel_malewski.shopping_cart.list_of_products.BasicListOfProducts;
 import com.marcel_malewski.shopping_cart.list_of_products.ListOfProducts;
 import com.marcel_malewski.shopping_cart.special_offer.special_offer_orders.SpecialOfferOrder;
 import lombok.Getter;
@@ -9,37 +8,37 @@ import java.util.*;
 
 @Getter
 public class ShoppingCart {
-    private final ListOfProducts basicListOfProducts;
+    private final ListOfProducts listOfProducts;
     //remember special offers to faster inform if special offer can be used
     private final ArrayList<String> currentSpecialOffers;
     //products are sorted only when we return them
     private String currentSortType;
 
     public ShoppingCart(ListOfProducts listOfProducts) {//dodaC przyjmowania listy produktow
-        this.basicListOfProducts = listOfProducts;
+        this.listOfProducts = listOfProducts;
         this.currentSpecialOffers = new ArrayList<>(){};
         this.currentSortType = "Default";
     }
 
     //shoppingCart is only invoker
     public void addProduct(Product newProduct) {
-        this.basicListOfProducts.addProduct(newProduct);
+        this.listOfProducts.addProduct(newProduct);
     }
 
     //shoppingCart is only invoker
     //return true if product was removed and false if product was not removed
     public boolean removeProduct(Product product) {
-        return this.basicListOfProducts.removeProduct(product);
+        return this.listOfProducts.removeProduct(product);
     }
 
     //shoppingCart is only invoker
     public Optional<Product> getCheapestProduct() {
-        return basicListOfProducts.getCheapestProduct();
+        return listOfProducts.getCheapestProduct();
     }
 
-    //here we combine some methods of basicListOfProducts
+    //here we combine some methods of listOfProducts
     public Product[] getCheapestProducts(int numberOfProducts) {
-        ListOfProducts tempListOfProducts = this.basicListOfProducts;
+        ListOfProducts tempListOfProducts = this.listOfProducts;
         tempListOfProducts.sortProductsAscByPrice();
 
         return tempListOfProducts.getProducts(numberOfProducts);
@@ -47,15 +46,15 @@ public class ShoppingCart {
 
     //shoppingCart is only invoker
     public Optional<Product> getMostExpensiveProduct() {
-        return basicListOfProducts.getMostExpensiveProduct();
+        return listOfProducts.getMostExpensiveProduct();
     }
 
-    //here we combine some methods of basicListOfProducts
+    //here we combine some methods of listOfProducts
     public Product[] getMostExpensiveProducts(int numberOfProducts) {
-        ListOfProducts tempBasicListOfProducts = this.basicListOfProducts;
-        tempBasicListOfProducts.sortProductsDescByPrice();
+        ListOfProducts tempListOfProducts = this.listOfProducts;
+        tempListOfProducts.sortProductsDescByPrice();
 
-        return tempBasicListOfProducts.getProducts(numberOfProducts);
+        return tempListOfProducts.getProducts(numberOfProducts);
     }
 
     public void defaultSort() {
@@ -80,7 +79,7 @@ public class ShoppingCart {
 
     //shoppingCart is only invoker
     public double getCostOfShoppingCart() {
-        return basicListOfProducts.getSumDiscountPricesOfAllProducts();
+        return listOfProducts.getSumDiscountPricesOfAllProducts();
     }
 
     //invoker
@@ -89,7 +88,7 @@ public class ShoppingCart {
         //return special offer that were not used
         for(SpecialOfferOrder specialOfferOrder : specialOfferOrders) {
             if(!this.currentSpecialOffers.contains(specialOfferOrder.getSpecialOffer().getName())){
-                if(specialOfferOrder.execute(this.basicListOfProducts)){
+                if(specialOfferOrder.execute(this.listOfProducts)){
                     this.currentSpecialOffers.add(specialOfferOrder.getSpecialOffer().getName());
                 }
             }
@@ -97,14 +96,14 @@ public class ShoppingCart {
     }
 
     //we sort only when we return elements
-    public Product[] getBasicListOfProducts() {
+    public Product[] getlistOfProducts() {
         switch (currentSortType) {
-            case "Default" -> this.basicListOfProducts.defaultSort();
-            case "AscByPrice" -> this.basicListOfProducts.sortProductsAscByPrice();
-            case "DescByPrice" -> this.basicListOfProducts.sortProductsDescByPrice();
-            case "AscByName" -> this.basicListOfProducts.sortProductsAscByName();
-            case "DescByName" -> this.basicListOfProducts.sortProductsDescByName();
+            case "Default" -> this.listOfProducts.defaultSort();
+            case "AscByPrice" -> this.listOfProducts.sortProductsAscByPrice();
+            case "DescByPrice" -> this.listOfProducts.sortProductsDescByPrice();
+            case "AscByName" -> this.listOfProducts.sortProductsAscByName();
+            case "DescByName" -> this.listOfProducts.sortProductsDescByName();
         }
-        return basicListOfProducts.getListOfProducts();
+        return listOfProducts.getListOfProducts();
     }
 }
