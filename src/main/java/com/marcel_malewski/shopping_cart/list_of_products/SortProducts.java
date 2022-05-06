@@ -5,13 +5,7 @@ import com.marcel_malewski.shopping_cart.Product;
 import java.util.Arrays;
 import java.util.Comparator;
 
-public class SortProducts {
-    public final Product[] listOfProducts;
-
-    public SortProducts(Product[] listOfProducts) {
-        this.listOfProducts = listOfProducts;
-    }
-
+public record SortProducts(Product[] listOfProducts) {
     public void defaultSort() {
         //desc by price then alphabetical by name
         Comparator<Product> productComparator
