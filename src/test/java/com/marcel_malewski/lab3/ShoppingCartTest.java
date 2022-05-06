@@ -1,0 +1,454 @@
+package com.marcel_malewski.lab3;
+
+import com.marcel_malewski.lab3.special_offer.special_offer_orders.ApplySpecialOffer;
+import com.marcel_malewski.lab3.special_offer.special_offers.*;
+import com.marcel_malewski.lab3.special_offer.special_offer_orders.SpecialOfferOrder;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class ShoppingCartTest {
+    ShoppingCart shoppingCart;
+            
+    @BeforeEach
+    void init() {
+        this.shoppingCart = new ShoppingCart();
+    }
+    @Test
+    void testIfGetCheapestProductsWillReturnCorrectProducts() {
+        Product testProduct1 = new Product("1", "test", 3.1);
+        Product testProduct2 = new Product("2", "test", 1.1);
+        Product testProduct3 = new Product("3", "test", 2.1);
+
+        this.shoppingCart.addProduct(testProduct1);
+        this.shoppingCart.addProduct(testProduct2);
+        this.shoppingCart.addProduct(testProduct3);
+
+        Product[] expectedResult = {testProduct2, testProduct3};
+
+        assertArrayEquals(expectedResult, this.shoppingCart.getCheapestProducts(2));
+    }
+
+    @Test
+    void testIfGetMostExpensiveProductsWillReturnCorrectProducts() {
+        Product testProduct1 = new Product("1", "test", 3.1);
+        Product testProduct2 = new Product("2", "test", 1.1);
+        Product testProduct3 = new Product("3", "test", 2.1);
+
+        this.shoppingCart.addProduct(testProduct1);
+        this.shoppingCart.addProduct(testProduct2);
+        this.shoppingCart.addProduct(testProduct3);
+
+        Product[] expectedResult = {testProduct1, testProduct3};
+
+        assertArrayEquals(expectedResult, this.shoppingCart.getMostExpensiveProducts(2));
+    }
+
+    @Test
+    void testIfReturnedProductsAreSortedDefaultCorrect() {
+        Product product1 = new Product("1", "testB", 11.3);
+        Product product2 = new Product("2", "testA", 11.3);
+        Product product3 = new Product("3", "test", 12.3);
+
+
+        this.shoppingCart.addProduct(product1);
+        this.shoppingCart.addProduct(product2);
+        this.shoppingCart.addProduct(product3);
+        this.shoppingCart.defaultSort();
+
+        Product[] expectedResult = new Product[5];
+        expectedResult[0] = product3;
+        expectedResult[1] = product2;
+        expectedResult[2] = product1;
+
+        assertArrayEquals(expectedResult, this.shoppingCart.getListOfProducts());
+    }
+
+    @Test
+    void testIfReturnedProductsAreSortedAscByPrice() {
+        Product product1 = new Product("1", "test", 12.3);
+        Product product2 = new Product("2", "test", 11.3);
+
+        this.shoppingCart.addProduct(product1);
+        this.shoppingCart.addProduct(product2);
+        this.shoppingCart.sortProductsAscByPrice();
+
+        Product[] expectedResult = new Product[5];
+        expectedResult[0] = product2;
+        expectedResult[1] = product1;
+
+        assertArrayEquals(expectedResult, this.shoppingCart.getListOfProducts());
+    }
+
+    @Test
+    void testIfReturnedProductsAreSortedDescByPrice() {
+        Product product1 = new Product("1", "test", 11.3);
+        Product product2 = new Product("2", "test", 12.3);
+
+        this.shoppingCart.addProduct(product1);
+        this.shoppingCart.addProduct(product2);
+        this.shoppingCart.sortProductsDescByPrice();
+
+        Product[] expectedResult = new Product[5];
+        expectedResult[0] = product2;
+        expectedResult[1] = product1;
+
+        assertArrayEquals(expectedResult, this.shoppingCart.getListOfProducts());
+    }
+
+    @Test
+    void testIfReturnedProductsAreSortedAscByName() {
+        Product product1 = new Product("1", "testB", 12.3);
+        Product product2 = new Product("2", "testA", 12.3);
+
+        this.shoppingCart.addProduct(product1);
+        this.shoppingCart.addProduct(product2);
+        this.shoppingCart.sortProductsAscByName();
+
+        Product[] expectedResult = new Product[5];
+        expectedResult[0] = product2;
+        expectedResult[1] = product1;
+
+        assertArrayEquals(expectedResult, this.shoppingCart.getListOfProducts());
+    }
+
+    @Test
+    void testIfReturnedProductsAreSortedDescByName() {
+        Product product1 = new Product("1", "testA", 12.3);
+        Product product2 = new Product("2", "testB", 12.3);
+
+        this.shoppingCart.addProduct(product1);
+        this.shoppingCart.addProduct(product2);
+        this.shoppingCart.sortProductsDescByName();
+
+        Product[] expectedResult = new Product[5];
+        expectedResult[0] = product2;
+        expectedResult[1] = product1;
+
+        assertArrayEquals(expectedResult, this.shoppingCart.getListOfProducts());
+    }
+
+    @Test
+    void testIfUsedSpecialOfferIsSaved() throws Exception {
+        //Client
+        //creating shopping cart with two products
+        Product testProduct1 = new Product("1", "test", 1000);
+        Product testProduct2 = new Product("2", "test", 10);
+
+        //add products to shopping cart
+        this.shoppingCart.addProduct(testProduct1);
+        this.shoppingCart.addProduct(testProduct2);
+
+        //create special offer order and special offer
+        SpecialOffer specialOfferAbove300pln = new SpecialOfferAbove300pln("specialOfferAbove300pln");
+        SpecialOfferOrder applySpecialOffer1 = new ApplySpecialOffer(specialOfferAbove300pln);
+
+        //create array of special offers orders
+        SpecialOfferOrder[] specialOfferOrders = {applySpecialOffer1};
+
+        //apply special offers orders
+        this.shoppingCart.applySpecialOffers(specialOfferOrders);
+
+        String expectedResult = "specialOfferAbove300pln";
+
+
+        assertEquals(expectedResult, this.shoppingCart.getCurrentSpecialOffers().get(0));
+    }
+
+    @Test
+    void testIfUsedSpecialOfferCanSaveTwoSameSpecialOffers() throws Exception {
+        //Client
+        //creating shopping cart with two products
+        Product testProduct1 = new Product("1", "test", 1000);
+        Product testProduct2 = new Product("2", "test", 10);
+
+        //add products to shopping cart
+        this.shoppingCart.addProduct(testProduct1);
+        this.shoppingCart.addProduct(testProduct2);
+
+        //create special offer order and special offer
+        SpecialOffer specialOfferAbove300pln = new SpecialOfferAbove300pln("specialOfferAbove300pln");
+        SpecialOfferOrder applySpecialOffer1 = new ApplySpecialOffer(specialOfferAbove300pln);
+        SpecialOfferOrder applySpecialOffer2 = new ApplySpecialOffer(specialOfferAbove300pln);
+
+        //create array of special offers orders
+        SpecialOfferOrder[] specialOfferOrders = {applySpecialOffer1, applySpecialOffer2};
+
+        //apply special offers orders
+        this.shoppingCart.applySpecialOffers(specialOfferOrders);
+
+        int expectedResult = 1;
+
+
+        assertEquals(expectedResult, this.shoppingCart.getCurrentSpecialOffers().size());
+    }
+
+    @Test
+    void testIfSpecialOfferAbove300plnApplyWorksCorrect() throws Exception {
+        //Client
+        //creating shopping cart with two products
+        Product testProduct1 = new Product("1", "test", 1000);
+        Product testProduct2 = new Product("2", "test", 10);
+
+        //add products to shopping cart
+        this.shoppingCart.addProduct(testProduct1);
+        this.shoppingCart.addProduct(testProduct2);
+
+        //create special offer order and special offer
+        SpecialOffer specialOfferAbove300pln = new SpecialOfferAbove300pln("specialOfferAbove300pln");
+        SpecialOfferOrder applySpecialOffer1 = new ApplySpecialOffer(specialOfferAbove300pln);
+
+        //create array of special offers orders
+        SpecialOfferOrder[] specialOfferOrders = {applySpecialOffer1};
+
+        //apply special offers orders
+        this.shoppingCart.applySpecialOffers(specialOfferOrders);
+
+        testProduct1.setDiscountPrice(950);
+        testProduct2.setDiscountPrice(9.5);
+
+        Product[] expectedResult = new Product[5];
+        expectedResult[0] = testProduct1;
+        expectedResult[1] = testProduct2;
+
+        assertArrayEquals(expectedResult, this.shoppingCart.getListOfProducts());
+    }
+
+    @Test
+    void testIfSpecialOfferAbove300plnCanApplyReturnFalseWhenCostIsLessThan300() throws Exception {
+        //Client
+        //creating shopping cart with two products
+        Product testProduct1 = new Product("1", "test", 10);
+        Product testProduct2 = new Product("2", "test", 10);
+
+        //add products to shopping cart
+        this.shoppingCart.addProduct(testProduct1);
+        this.shoppingCart.addProduct(testProduct2);
+
+        //create special offer order and special offer
+        SpecialOffer specialOfferAbove300pln = new SpecialOfferAbove300pln("specialOfferAbove300pln");
+        SpecialOfferOrder applySpecialOffer1 = new ApplySpecialOffer(specialOfferAbove300pln);
+
+        //create array of special offers orders
+        SpecialOfferOrder[] specialOfferOrders = {applySpecialOffer1};
+
+        //apply special offers orders
+        this.shoppingCart.applySpecialOffers(specialOfferOrders);
+
+        int expectedResult = 0;
+
+        assertEquals(expectedResult, this.shoppingCart.getCurrentSpecialOffers().size());
+    }
+
+    @Test
+    void testIfSpecialOfferAbove300plnCanApplyReturnFalseWhenThereIsFreeProduct() throws Exception {
+        //Client
+        //creating shopping cart with two products
+        Product testProduct1 = new Product("1", "test", 10);
+        Product testProduct2 = new Product("2", "test", 0);
+
+        //add products to shopping cart
+        this.shoppingCart.addProduct(testProduct1);
+        this.shoppingCart.addProduct(testProduct2);
+
+        //create special offer order and special offer
+        SpecialOffer specialOfferAbove300pln = new SpecialOfferAbove300pln("specialOfferAbove300pln");
+        SpecialOfferOrder applySpecialOffer1 = new ApplySpecialOffer(specialOfferAbove300pln);
+
+        //create array of special offers orders
+        SpecialOfferOrder[] specialOfferOrders = {applySpecialOffer1};
+
+        //apply special offers orders
+        this.shoppingCart.applySpecialOffers(specialOfferOrders);
+
+        int expectedResult = 0;
+
+        assertEquals(expectedResult, this.shoppingCart.getCurrentSpecialOffers().size());
+    }
+
+    @Test
+    void testIfSpecialOfferThirtyPercentForProductApplyWorksCorrect() throws Exception {
+        //Client
+        Product testProduct1 = new Product("1", "test", 10);
+        Product testProduct2 = new Product("2", "test", 10);
+
+        this.shoppingCart.addProduct(testProduct1);
+        this.shoppingCart.addProduct(testProduct2);
+
+        SpecialOffer specialOfferThirtyPercentForProduct =
+                new SpecialOfferThirtyPercentForProduct(testProduct1, "specialOfferThirtyPercentForProduct");
+        SpecialOfferOrder applySpecialOffer1 = new ApplySpecialOffer(specialOfferThirtyPercentForProduct);
+
+        SpecialOfferOrder[] specialOfferOrders = {applySpecialOffer1};
+
+        this.shoppingCart.applySpecialOffers(specialOfferOrders);
+
+        testProduct1.setDiscountPrice(7);
+        testProduct2.setDiscountPrice(10);
+
+        Product[] expectedResult = new Product[5];
+        expectedResult[0] = testProduct1;
+        expectedResult[1] = testProduct2;
+
+        assertArrayEquals(expectedResult , this.shoppingCart.getListOfProducts());
+    }
+
+    @Test
+    void testIfSpecialOfferThirtyPercentForProductCanApplyReturnFalseWhenProductIsNotPresent() throws Exception {
+        //Client
+        Product testProduct1 = new Product("1", "test", 10);
+        Product testProduct2 = new Product("2", "test", 10);
+        Product testProduct3 = new Product("3", "test2", 10);
+
+        this.shoppingCart.addProduct(testProduct1);
+        this.shoppingCart.addProduct(testProduct2);
+
+        SpecialOffer specialOfferThirtyPercentForProduct =
+                new SpecialOfferThirtyPercentForProduct(testProduct3, "specialOfferThirtyPercentForProduct");
+        SpecialOfferOrder applySpecialOffer1 = new ApplySpecialOffer(specialOfferThirtyPercentForProduct);
+
+        SpecialOfferOrder[] specialOfferOrders = {applySpecialOffer1};
+
+        this.shoppingCart.applySpecialOffers(specialOfferOrders);
+
+        int expectedResult = 0;
+
+        assertEquals(expectedResult, this.shoppingCart.getCurrentSpecialOffers().size());
+    }
+
+    @Test
+    void testIfSpecialOfferThirtyPercentForProductCanApplyReturnFalseWhenProductIsFree() throws Exception {
+        //Client
+        Product testProduct1 = new Product("1", "test", 10);
+        Product testProduct2 = new Product("2", "test2", 0);
+
+        this.shoppingCart.addProduct(testProduct1);
+        this.shoppingCart.addProduct(testProduct2);
+
+        SpecialOffer specialOfferThirtyPercentForProduct =
+                new SpecialOfferThirtyPercentForProduct(testProduct2, "specialOfferThirtyPercentForProduct");
+        SpecialOfferOrder applySpecialOffer1 = new ApplySpecialOffer(specialOfferThirtyPercentForProduct);
+
+        SpecialOfferOrder[] specialOfferOrders = {applySpecialOffer1};
+
+        this.shoppingCart.applySpecialOffers(specialOfferOrders);
+
+        int expectedResult = 0;
+
+        assertEquals(expectedResult, this.shoppingCart.getCurrentSpecialOffers().size());
+    }
+
+    @Test
+    void testIfSpecialOfferAbove2ProductsApplyWorksCorrect() throws Exception {
+        //Client
+        Product testProduct1 = new Product("1", "test", 12);
+        Product testProduct2 = new Product("2", "test", 9);
+        Product testProduct3 = new Product("3", "test", 10);
+
+        this.shoppingCart.addProduct(testProduct1);
+        this.shoppingCart.addProduct(testProduct2);
+        this.shoppingCart.addProduct(testProduct3);
+
+        SpecialOffer specialOfferAbove2Products = new SpecialOfferAbove2Products("specialOfferAbove2Products");
+        SpecialOfferOrder applySpecialOffer1 = new ApplySpecialOffer(specialOfferAbove2Products);
+
+        SpecialOfferOrder[] specialOfferOrders = {applySpecialOffer1};
+
+        this.shoppingCart.applySpecialOffers(specialOfferOrders);
+
+        testProduct1.setDiscountPrice(12);
+        testProduct2.setDiscountPrice(0);
+        testProduct2.setDiscountPrice(10);
+
+        Product[] expectedResult = new Product[5];
+        //remember about default sort
+        expectedResult[0] = testProduct1;
+        expectedResult[1] = testProduct3;
+        expectedResult[2] = testProduct2;
+
+        assertArrayEquals(expectedResult , this.shoppingCart.getListOfProducts());
+    }
+
+    @Test
+    void testIfSpecialOfferAbove2ProductsCanApplyReturnFalseWhenThereIsLessThan3NotFreeProducts() throws Exception {
+        //Client
+        Product testProduct1 = new Product("1", "test", 12);
+        Product testProduct2 = new Product("2", "test", 9);
+        Product testProduct3 = new Product("3", "test", 0);
+
+        this.shoppingCart.addProduct(testProduct1);
+        this.shoppingCart.addProduct(testProduct2);
+        this.shoppingCart.addProduct(testProduct3);
+
+        SpecialOffer specialOfferAbove2Products = new SpecialOfferAbove2Products("specialOfferAbove2Products");
+        SpecialOfferOrder applySpecialOffer1 = new ApplySpecialOffer(specialOfferAbove2Products);
+
+        SpecialOfferOrder[] specialOfferOrders = {applySpecialOffer1};
+
+        this.shoppingCart.applySpecialOffers(specialOfferOrders);
+
+        int expectedResult = 0;
+
+        assertEquals(expectedResult, this.shoppingCart.getCurrentSpecialOffers().size());
+    }
+
+    @Test
+    void testIfSpecialOfferAbove200WithFreeMugApplyWorksCorrect() throws Exception {
+         //Client
+        Product testProduct1 = new Product("1", "test", 200);
+
+        this.shoppingCart.addProduct(testProduct1);
+
+        SpecialOffer specialOfferAbove200WitFreeMug = new SpecialOfferAbove200WitFreeMug("specialOfferAbove200WitFreeMug");
+        SpecialOfferOrder applySpecialOffer1 = new ApplySpecialOffer(specialOfferAbove200WitFreeMug);
+
+        SpecialOfferOrder[] specialOfferOrders = {applySpecialOffer1};
+
+        this.shoppingCart.applySpecialOffers(specialOfferOrders);
+
+        Product testProductMug = new Product("4", "Mug", 0);
+
+        assertTrue(testProductMug.equalProducts(this.shoppingCart.getListOfProducts()[1]));
+    }
+
+    @Test
+    void testIfSpecialOfferAbove200WithFreeMugCanApplyReturnsFalseWhenLessThan200pln() throws Exception {
+        //Client
+        Product testProduct1 = new Product("1", "test", 100);
+
+        this.shoppingCart.addProduct(testProduct1);
+
+        SpecialOffer specialOfferAbove200WitFreeMug = new SpecialOfferAbove200WitFreeMug("specialOfferAbove200WitFreeMug");
+        SpecialOfferOrder applySpecialOffer1 = new ApplySpecialOffer(specialOfferAbove200WitFreeMug);
+
+        SpecialOfferOrder[] specialOfferOrders = {applySpecialOffer1};
+
+        this.shoppingCart.applySpecialOffers(specialOfferOrders);
+
+        int expectedResult = 0;
+
+        assertEquals(expectedResult, this.shoppingCart.getCurrentSpecialOffers().size());
+    }
+
+    @Test
+    void testIfSpecialOfferAbove200WithFreeMugCanApplyReturnsFalseWhenThereIsFreeMug() throws Exception {
+        //Client
+        Product testProduct1 = new Product("1", "test", 200);
+        Product testProduct2 = new Product("2", "Mug", 0);
+
+        this.shoppingCart.addProduct(testProduct1);
+        this.shoppingCart.addProduct(testProduct2);
+
+        SpecialOffer specialOfferAbove200WitFreeMug = new SpecialOfferAbove200WitFreeMug("specialOfferAbove200WitFreeMug");
+        SpecialOfferOrder applySpecialOffer1 = new ApplySpecialOffer(specialOfferAbove200WitFreeMug);
+
+        SpecialOfferOrder[] specialOfferOrders = {applySpecialOffer1};
+
+        this.shoppingCart.applySpecialOffers(specialOfferOrders);
+
+        int expectedResult = 0;
+
+        assertEquals(expectedResult, this.shoppingCart.getCurrentSpecialOffers().size());
+    }
+}
