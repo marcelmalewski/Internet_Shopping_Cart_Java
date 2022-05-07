@@ -96,9 +96,35 @@ public class BasicListOfProducts implements ListOfProducts {
         return elementWasRemoved;
     }
 
-    //return n number of elements but not remove them from list
     public Product[] getProducts(int numberOfElements) {
         return Arrays.copyOf(this.listOfProducts, numberOfElements);
+    }
+    @Override
+    public double getSumDiscountPricesOfAllProducts() {
+        double sum = 0;
+
+        for (Product product : this.listOfProducts) {
+            //ignore nulls
+            if (!Objects.isNull(product))
+                sum += product.getDiscountPrice();
+        }
+
+        return Math.round(sum * Math.pow(10, 2))
+                / Math.pow(10, 2);
+    }
+
+    @Override
+    public double getSumPricesOfAllProducts() {
+        double sum = 0;
+
+        for (Product product : this.listOfProducts) {
+            //ignore nulls
+            if (!Objects.isNull(product))
+                sum += product.getPrice();
+        }
+
+        return Math.round(sum * Math.pow(10, 2))
+                / Math.pow(10, 2);
     }
 
     public Optional<Product> getCheapestProduct() {
@@ -141,34 +167,6 @@ public class BasicListOfProducts implements ListOfProducts {
         }
 
         return optionalExpensiveProduct;
-    }
-
-    @Override
-    public double getSumDiscountPricesOfAllProducts() {
-        double sum = 0;
-
-        for (Product product : this.listOfProducts) {
-            //ignore nulls
-            if (!Objects.isNull(product))
-                sum += product.getDiscountPrice();
-        }
-
-        return Math.round(sum * Math.pow(10, 2))
-                / Math.pow(10, 2);
-    }
-
-    @Override
-    public double getSumPricesOfAllProducts() {
-        double sum = 0;
-
-        for (Product product : this.listOfProducts) {
-            //ignore nulls
-            if (!Objects.isNull(product))
-                sum += product.getPrice();
-        }
-
-        return Math.round(sum * Math.pow(10, 2))
-                / Math.pow(10, 2);
     }
 
     @Override

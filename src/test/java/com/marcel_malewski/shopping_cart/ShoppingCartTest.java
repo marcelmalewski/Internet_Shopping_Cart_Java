@@ -179,7 +179,7 @@ class ShoppingCartTest {
     }
 
     @Test
-    void testIfUsedSpecialOfferCanSaveTwoSameSpecialOffers() throws Exception {
+    void testIfTwoSameSpecialOffersCanBeSaved() throws Exception {
         //Client
         //creating shopping cart with two products
         Product testProduct1 = new Product("1", "test", 1000);
@@ -203,6 +203,9 @@ class ShoppingCartTest {
         assertEquals(expectedResult, this.shoppingCart.getCurrentSpecialOffers().size());
     }
 
+    //test czy uzycie przykladowej promocji dziala
+
+    //test czy mogą się użyć dwie promocje na raz
     @Test
     void testIfSpecialOfferAbove300plnApplyWorksCorrect() throws Exception {
         //Client

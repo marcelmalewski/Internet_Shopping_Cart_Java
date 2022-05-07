@@ -5,6 +5,7 @@ import com.marcel_malewski.shopping_cart.list_of_products.sort.SortProducts;
 import com.marcel_malewski.shopping_cart.list_of_products.sort.SortProductsAscByPrice;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashSet;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -51,7 +52,7 @@ class BasicListOfProductsTest {
     }
 
     @Test
-    void testIfRemoveElementReturnsTrueWhenElementIsRemoved() {
+    void testIfRemoveProductReturnsTrueWhenProductIsRemoved() {
         this.basicListOfProducts = new BasicListOfProducts();
 
         Product product = new Product("1", "test", 12.3);
@@ -61,7 +62,7 @@ class BasicListOfProductsTest {
     }
 
     @Test
-    void testIfRemoveElementReturnsFalseWhenElementIsNotRemoved() {
+    void testIfRemoveProductReturnsFalseWhenProductIsNotRemoved() {
         this.basicListOfProducts = new BasicListOfProducts();
 
         Product product = new Product("1", "test", 12.3);
@@ -70,7 +71,7 @@ class BasicListOfProductsTest {
     }
 
     @Test
-    void testIfAfterRemoveElementFromListWithSixElementsTheLengthOfListIsChanged() {
+    void testIfAfterRemoveProductFromListWithSixProductsTheLengthOfListIsChanged() {
         this.basicListOfProducts = new BasicListOfProducts();
 
         Product tempProduct;
@@ -87,7 +88,7 @@ class BasicListOfProductsTest {
     }
 
     @Test
-    void testIfPeekElementsWillReturnCorrectElements() {
+    void testIfGetProductsWillReturnCorrectProduct() {
         this.basicListOfProducts = new BasicListOfProducts();
 
         Product product1 = new Product("1", "testA", 12.3);
@@ -215,6 +216,18 @@ class BasicListOfProductsTest {
         assertArrayEquals(expectedResult, this.basicListOfProducts.getListOfProducts());
     }
 
+    @Test
+    void testIfAddSortTypeWorks() {
+        SortProducts sortProductsAscByPrice = new SortProductsAscByPrice();
+
+        this.basicListOfProducts = new BasicListOfProducts();
+        this.basicListOfProducts.addSortTypes(sortProductsAscByPrice);
+
+        HashSet<SortProducts> expectedResult = new HashSet<>();
+        expectedResult.add(sortProductsAscByPrice);
+
+        assertEquals(expectedResult, this.basicListOfProducts.getAvailableSortTypes());
+    }
     @Test
     void testIfAddedSortTypeWorks() throws Exception {
         SortProducts sortProductsAscByPrice = new SortProductsAscByPrice();
