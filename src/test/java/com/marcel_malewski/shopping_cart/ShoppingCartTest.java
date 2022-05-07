@@ -2,11 +2,14 @@ package com.marcel_malewski.shopping_cart;
 
 import com.marcel_malewski.shopping_cart.list_of_products.BasicListOfProducts;
 import com.marcel_malewski.shopping_cart.list_of_products.ListOfProducts;
+import com.marcel_malewski.shopping_cart.list_of_products.sort.*;
 import com.marcel_malewski.shopping_cart.special_offer.special_offer_orders.ApplySpecialOffer;
 import com.marcel_malewski.shopping_cart.special_offer.special_offers.*;
 import com.marcel_malewski.shopping_cart.special_offer.special_offer_orders.SpecialOfferOrder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,7 +23,7 @@ class ShoppingCartTest {
         this.shoppingCart = new ShoppingCart(this.basicListOfProducts);
     }
     @Test
-    void testIfGetCheapestProductsWillReturnCorrectProducts() {
+    void testIfGetCheapestProductsWillReturnCorrectProducts() throws Exception {
         Product testProduct1 = new Product("1", "test", 3.1);
         Product testProduct2 = new Product("2", "test", 1.1);
         Product testProduct3 = new Product("3", "test", 2.1);
@@ -35,7 +38,7 @@ class ShoppingCartTest {
     }
 
     @Test
-    void testIfGetMostExpensiveProductsWillReturnCorrectProducts() {
+    void testIfGetMostExpensiveProductsWillReturnCorrectProducts() throws Exception {
         Product testProduct1 = new Product("1", "test", 3.1);
         Product testProduct2 = new Product("2", "test", 1.1);
         Product testProduct3 = new Product("3", "test", 2.1);
@@ -50,7 +53,7 @@ class ShoppingCartTest {
     }
 
     @Test
-    void testIfReturnedProductsAreSortedDefaultCorrect() {
+    void testIfDefaultSortWorks() throws Exception {
         Product product1 = new Product("1", "testB", 11.3);
         Product product2 = new Product("2", "testA", 11.3);
         Product product3 = new Product("3", "test", 12.3);
@@ -70,67 +73,85 @@ class ShoppingCartTest {
     }
 
     @Test
-    void testIfReturnedProductsAreSortedAscByPrice() {
-        Product product1 = new Product("1", "test", 12.3);
-        Product product2 = new Product("2", "test", 11.3);
+    void testIfSortAscByPriceAndDescByPriceIsAddedByDefault() {
+        SortProducts sortProductsAscByPrice = new SortProductsAscByPrice();
+        SortProducts sortProductsDescByPrice = new SortProductsDescByPrice();
 
-        this.shoppingCart.addProduct(product1);
-        this.shoppingCart.addProduct(product2);
-        this.shoppingCart.sortProductsAscByPrice();
+        HashSet<SortProducts> expectedResult = new HashSet<>();
+        expectedResult.add(sortProductsAscByPrice);
+        expectedResult.add(sortProductsDescByPrice);
 
-        Product[] expectedResult = new Product[5];
-        expectedResult[0] = product2;
-        expectedResult[1] = product1;
-
-        assertArrayEquals(expectedResult, this.shoppingCart.getListOfProducts());
+        assertEquals(expectedResult, this.shoppingCart.getAvailableSortTypes());
     }
 
     @Test
-    void testIfReturnedProductsAreSortedDescByPrice() {
-        Product product1 = new Product("1", "test", 11.3);
-        Product product2 = new Product("2", "test", 12.3);
+    void testIfAddingNewSortTypesWorks() {
+        SortProducts sortProductsAscByName = new SortProductsAscByName();
 
-        this.shoppingCart.addProduct(product1);
-        this.shoppingCart.addProduct(product2);
-        this.shoppingCart.sortProductsDescByPrice();
+        this.basicListOfProducts = new BasicListOfProducts(sortProductsAscByName);
+        this.shoppingCart = new ShoppingCart(this.basicListOfProducts);
 
-        Product[] expectedResult = new Product[5];
-        expectedResult[0] = product2;
-        expectedResult[1] = product1;
+        SortProducts sortProductsAscByPrice = new SortProductsAscByPrice();
+        SortProducts sortProductsDescByPrice = new SortProductsDescByPrice();
 
-        assertArrayEquals(expectedResult, this.shoppingCart.getListOfProducts());
+        HashSet<SortProducts> expectedResult = new HashSet<>();
+        expectedResult.add(sortProductsAscByPrice);
+        expectedResult.add(sortProductsDescByPrice);
+        expectedResult.add(sortProductsAscByName);
+
+        assertEquals(expectedResult, this.shoppingCart.getAvailableSortTypes());
     }
 
     @Test
-    void testIfReturnedProductsAreSortedAscByName() {
-        Product product1 = new Product("1", "testB", 12.3);
-        Product product2 = new Product("2", "testA", 12.3);
+    void testIfAddedSortTypeWorks() throws Exception {
+        SortProducts sortProductsDescByName = new SortProductsDescByName();
+        this.basicListOfProducts = new BasicListOfProducts(sortProductsDescByName);
+        this.shoppingCart = new ShoppingCart(this.basicListOfProducts);
 
-        this.shoppingCart.addProduct(product1);
-        this.shoppingCart.addProduct(product2);
-        this.shoppingCart.sortProductsAscByName();
-
-        Product[] expectedResult = new Product[5];
-        expectedResult[0] = product2;
-        expectedResult[1] = product1;
-
-        assertArrayEquals(expectedResult, this.shoppingCart.getListOfProducts());
-    }
-
-    @Test
-    void testIfReturnedProductsAreSortedDescByName() {
         Product product1 = new Product("1", "testA", 12.3);
         Product product2 = new Product("2", "testB", 12.3);
 
         this.shoppingCart.addProduct(product1);
         this.shoppingCart.addProduct(product2);
-        this.shoppingCart.sortProductsDescByName();
+        this.shoppingCart.sort("descByName");
 
         Product[] expectedResult = new Product[5];
         expectedResult[0] = product2;
         expectedResult[1] = product1;
 
         assertArrayEquals(expectedResult, this.shoppingCart.getListOfProducts());
+    }
+
+    @Test
+    void testIfSameSortTypeIsAddedTwoTimesSecondOneIsNotAdded() {
+        this.basicListOfProducts = new BasicListOfProducts();
+        this.shoppingCart = new ShoppingCart(this.basicListOfProducts);
+
+        SortProducts sortProductsAscByPrice = new SortProductsAscByPrice();
+        SortProducts sortProductsDescByPrice = new SortProductsDescByPrice();
+
+        this.basicListOfProducts.addSortTypes(sortProductsAscByPrice);
+
+        HashSet<SortProducts> expectedResult = new HashSet<>();
+        expectedResult.add(sortProductsAscByPrice);
+        expectedResult.add(sortProductsDescByPrice);
+
+        assertEquals(expectedResult, this.shoppingCart.getAvailableSortTypes());
+    }
+
+    @Test
+    void testIfPassedInConstructorDuplicatedSortTypeIsNotAdded() {
+        SortProducts sortProductsAscByPrice = new SortProductsAscByPrice();
+        SortProducts sortProductsDescByPrice = new SortProductsDescByPrice();
+
+        this.basicListOfProducts = new BasicListOfProducts(sortProductsAscByPrice);
+        this.shoppingCart = new ShoppingCart(this.basicListOfProducts);
+
+        HashSet<SortProducts> expectedResult = new HashSet<>();
+        expectedResult.add(sortProductsAscByPrice);
+        expectedResult.add(sortProductsDescByPrice);
+
+        assertEquals(expectedResult, this.shoppingCart.getAvailableSortTypes());
     }
 
     @Test

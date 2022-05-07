@@ -1,6 +1,9 @@
 package com.marcel_malewski.shopping_cart;
 
 import com.marcel_malewski.shopping_cart.list_of_products.ListOfProducts;
+import com.marcel_malewski.shopping_cart.list_of_products.sort.SortProducts;
+import com.marcel_malewski.shopping_cart.list_of_products.sort.SortProductsAscByPrice;
+import com.marcel_malewski.shopping_cart.list_of_products.sort.SortProductsDescByPrice;
 import com.marcel_malewski.shopping_cart.special_offer.special_offer_orders.SpecialOfferOrder;
 import lombok.Getter;
 
@@ -14,10 +17,15 @@ public class ShoppingCart {
     //products are sorted only when we return them
     private String currentSortType;
 
-    public ShoppingCart(ListOfProducts listOfProducts) {//dodaC przyjmowania listy produktow
+    public ShoppingCart(ListOfProducts listOfProducts) {
         this.listOfProducts = listOfProducts;
+
+        SortProducts sortAscByPrice = new SortProductsAscByPrice();
+        SortProducts sortDescByPrice = new SortProductsDescByPrice();
+
+        this.listOfProducts.addSortTypes(sortAscByPrice, sortDescByPrice);
         this.currentSpecialOffers = new ArrayList<>(){};
-        this.currentSortType = "Default";
+        this.currentSortType = "default";
     }
 
     //shoppingCart is only invoker
@@ -37,9 +45,9 @@ public class ShoppingCart {
     }
 
     //here we combine some methods of listOfProducts
-    public Product[] getCheapestProducts(int numberOfProducts) {
+    public Product[] getCheapestProducts(int numberOfProducts) throws Exception {
         ListOfProducts tempListOfProducts = this.listOfProducts;
-        tempListOfProducts.sort("AscByPrice");
+        tempListOfProducts.sort("ascByPrice");
 
         return tempListOfProducts.getProducts(numberOfProducts);
     }
@@ -50,31 +58,29 @@ public class ShoppingCart {
     }
 
     //here we combine some methods of listOfProducts
-    public Product[] getMostExpensiveProducts(int numberOfProducts) {
+    public Product[] getMostExpensiveProducts(int numberOfProducts) throws Exception {
         ListOfProducts tempListOfProducts = this.listOfProducts;
-        tempListOfProducts.sort("DescByPrice");
+        tempListOfProducts.sort("descByPrice");
 
         return tempListOfProducts.getProducts(numberOfProducts);
     }
 
     public void defaultSort() {
-        this.currentSortType = "Default";
+        this.currentSortType = "default";
     }
+    public void sort(String newSortType) throws Exception {
+        boolean newSortTypeIsAvailable = false;
+        //check if new sortType is available
+        for(SortProducts sortProducts : this.listOfProducts.getAvailableSortTypes()) {
+            if(sortProducts.getSortType().equals(newSortType))
+                newSortTypeIsAvailable = true;
+        }
 
-    public void sortProductsAscByPrice() {
-        this.currentSortType = "AscByPrice";
-    }
-
-    public void sortProductsDescByPrice() {
-        this.currentSortType = "DescByPrice";
-    }
-
-    public void sortProductsAscByName() {
-        this.currentSortType = "AscByName";
-    }
-
-    public void sortProductsDescByName() {
-        this.currentSortType = "DescByName";
+        if(newSortTypeIsAvailable) {
+            this.currentSortType = newSortType;
+        } else {
+            throw new Exception("shopping cart cant find expected sortType");
+        }
     }
 
     //shoppingCart is only invoker
@@ -96,14 +102,16 @@ public class ShoppingCart {
     }
 
     //we sort only when we return elements
-    public Product[] getListOfProducts() {
-        switch (currentSortType) {
-            case "Default" -> this.listOfProducts.defaultSort();
-            case "AscByPrice" -> this.listOfProducts.sort("AscByPrice");
-            case "DescByPrice" -> this.listOfProducts.sort("DescByPrice");
-            case "AscByName" -> this.listOfProducts.sort("AscByName");
-            case "DescByName" -> this.listOfProducts.sort("DescByName");
-        }
+    public Product[] getListOfProducts() throws Exception {
+        if(currentSortType.equals("default"))
+            this.listOfProducts.defaultSort();
+        else
+            this.listOfProducts.sort(currentSortType);
+
         return listOfProducts.getListOfProducts();
+    }
+
+    public HashSet<SortProducts> getAvailableSortTypes() {
+        return this.listOfProducts.getAvailableSortTypes();
     }
 }

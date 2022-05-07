@@ -1,7 +1,8 @@
 package com.marcel_malewski.shopping_cart;
 
 import com.marcel_malewski.shopping_cart.list_of_products.BasicListOfProducts;
-import org.junit.jupiter.api.BeforeEach;
+import com.marcel_malewski.shopping_cart.list_of_products.sort.SortProducts;
+import com.marcel_malewski.shopping_cart.list_of_products.sort.SortProductsAscByPrice;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -10,14 +11,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BasicListOfProductsTest {
     BasicListOfProducts basicListOfProducts;
-
-    @BeforeEach
-    void init() {
-        this.basicListOfProducts = new BasicListOfProducts();
-    }
-
     @Test
     void testIfProductIsAddedToListOfProducts() {
+        this.basicListOfProducts = new BasicListOfProducts();
+
         Product product = new Product("1", "test", 12.3);
         Product[] expectedResult = new Product[5];
         expectedResult[0] = product;
@@ -28,6 +25,8 @@ class BasicListOfProductsTest {
 
     @Test
     void testIfWeCanAddMoreThan5Products() {
+        this.basicListOfProducts = new BasicListOfProducts();
+
         Product product = new Product("1", "test", 12.3);
         Product[] expectedResult = new Product[10];
         for(int i=0; i<=6; i++) {
@@ -40,6 +39,8 @@ class BasicListOfProductsTest {
 
     @Test
     void testIfProductIsRemovedFromListOfProducts() {
+        this.basicListOfProducts = new BasicListOfProducts();
+
         Product product = new Product("1", "test", 12.3);
         Product[] expectedResult = new Product[5];
 
@@ -51,6 +52,8 @@ class BasicListOfProductsTest {
 
     @Test
     void testIfRemoveElementReturnsTrueWhenElementIsRemoved() {
+        this.basicListOfProducts = new BasicListOfProducts();
+
         Product product = new Product("1", "test", 12.3);
         this.basicListOfProducts.addProduct(product);
 
@@ -59,6 +62,8 @@ class BasicListOfProductsTest {
 
     @Test
     void testIfRemoveElementReturnsFalseWhenElementIsNotRemoved() {
+        this.basicListOfProducts = new BasicListOfProducts();
+
         Product product = new Product("1", "test", 12.3);
 
         assertFalse(this.basicListOfProducts.removeProduct(product));
@@ -66,6 +71,8 @@ class BasicListOfProductsTest {
 
     @Test
     void testIfAfterRemoveElementFromListWithSixElementsTheLengthOfListIsChanged() {
+        this.basicListOfProducts = new BasicListOfProducts();
+
         Product tempProduct;
 
         for(int i=0; i<6; i++) {
@@ -81,6 +88,8 @@ class BasicListOfProductsTest {
 
     @Test
     void testIfPeekElementsWillReturnCorrectElements() {
+        this.basicListOfProducts = new BasicListOfProducts();
+
         Product product1 = new Product("1", "testA", 12.3);
         Product product2 = new Product("2", "testB", 12.3);
         Product product3 = new Product("3", "testC", 12.3);
@@ -98,6 +107,8 @@ class BasicListOfProductsTest {
 
     @Test
     void testIfDiscountPricesAreSummedCorrect() {
+        this.basicListOfProducts = new BasicListOfProducts();
+
         Product testProduct = new Product("1", "test", 3.1);
         testProduct.setDiscountPrice(2.1);
 
@@ -112,6 +123,8 @@ class BasicListOfProductsTest {
 
     @Test
     void testIfPricesAreSummedCorrect() {
+        this.basicListOfProducts = new BasicListOfProducts();
+
         Product testProduct = new Product("1", "test", 3.1);
         testProduct.setDiscountPrice(2.1);
 
@@ -126,6 +139,8 @@ class BasicListOfProductsTest {
 
     @Test
     void testIfGetCheapestProductWillReturnProductAtAll() {
+        this.basicListOfProducts = new BasicListOfProducts();
+
         Product testProduct1 = new Product("1", "test", 3.1);
         Product testProduct2 = new Product("2", "test", 2.1);
 
@@ -137,6 +152,8 @@ class BasicListOfProductsTest {
 
     @Test
     void testIfGetCheapestProductWillReturnCorrectProduct() {
+        this.basicListOfProducts = new BasicListOfProducts();
+
         Product testProduct1 = new Product("1", "test", 3.1);
         Product testProduct2 = new Product("2", "test", 2.1);
 
@@ -150,6 +167,8 @@ class BasicListOfProductsTest {
 
     @Test
     void testIfGetExpensiveProductWillReturnProductAtAll() {
+        this.basicListOfProducts = new BasicListOfProducts();
+
         Product testProduct1 = new Product("1", "test", 3.1);
         Product testProduct2 = new Product("2", "test", 2.1);
 
@@ -161,6 +180,8 @@ class BasicListOfProductsTest {
 
     @Test
     void testIfGetExpensiveProductWillReturnCorrectProduct() {
+        this.basicListOfProducts = new BasicListOfProducts();
+
         Product testProduct1 = new Product("1", "test", 3.1);
         Product testProduct2 = new Product("2", "test", 2.1);
 
@@ -170,5 +191,48 @@ class BasicListOfProductsTest {
         Optional<Product> ExpensiveProduct = Optional.of(testProduct1);
 
         assertEquals(ExpensiveProduct, this.basicListOfProducts.getMostExpensiveProduct());
+    }
+
+    @Test
+    void testIfDefaultSortWorksCorrect() {
+        this.basicListOfProducts = new BasicListOfProducts();
+
+        Product product1 = new Product("1", "testB", 11.3);
+        Product product2 = new Product("2", "testA", 11.3);
+        Product product3 = new Product("3", "test", 12.3);
+
+        this.basicListOfProducts.addProduct(product1);
+        this.basicListOfProducts.addProduct(product2);
+        this.basicListOfProducts.addProduct(product3);
+
+        this.basicListOfProducts.defaultSort();
+
+        Product[] expectedResult = new Product[5];
+        expectedResult[0] = product3;
+        expectedResult[1] = product2;
+        expectedResult[2] = product1;
+
+        assertArrayEquals(expectedResult, this.basicListOfProducts.getListOfProducts());
+    }
+
+    @Test
+    void testIfAddedSortTypeWorks() throws Exception {
+        SortProducts sortProductsAscByPrice = new SortProductsAscByPrice();
+
+        this.basicListOfProducts = new BasicListOfProducts(sortProductsAscByPrice);
+
+        Product product1 = new Product("1", "test", 12.3);
+        Product product2 = new Product("2", "test", 11.3);
+
+        this.basicListOfProducts.addProduct(product1);
+        this.basicListOfProducts.addProduct(product2);
+
+        this.basicListOfProducts.sort("ascByPrice");
+
+        Product[] expectedResult = new Product[5];
+        expectedResult[0] = product2;
+        expectedResult[1] = product1;
+
+        assertArrayEquals(expectedResult, this.basicListOfProducts.getListOfProducts());
     }
 }

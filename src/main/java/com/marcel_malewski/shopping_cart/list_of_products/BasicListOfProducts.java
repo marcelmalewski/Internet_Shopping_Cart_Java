@@ -9,17 +9,19 @@ import java.util.*;
 @Getter
 public class BasicListOfProducts implements ListOfProducts {
     private Product[] listOfProducts;
-    private SortProducts[] availableSortTypes;
+    private final HashSet<SortProducts> availableSortTypes;
 
     public BasicListOfProducts() {
         //we start with 5 free spaces
         this.listOfProducts = new Product[5];
+        this.availableSortTypes = new HashSet<>();
     }
 
     public BasicListOfProducts(SortProducts ... sortProducts) {
         //we start with 5 free spaces
         this.listOfProducts = new Product[5];
-        this.availableSortTypes = sortProducts;
+
+        this.availableSortTypes = new HashSet<>(List.of(sortProducts));
     }
 
     private OptionalInt getIndexOfEmptySpace(Product[] listOfProducts) {
@@ -184,7 +186,23 @@ public class BasicListOfProducts implements ListOfProducts {
     }
 
     @Override
-    public void sort(String sortType) {
+    public void sort(String sortType) throws Exception {
+        boolean sortTypeIsAvailable = false;
 
+        for(SortProducts sortProducts : this.availableSortTypes) {
+            if(sortProducts.getSortType().equals(sortType)) {
+                sortTypeIsAvailable = true;
+                sortProducts.sort(this.listOfProducts);
+                break;
+            }
+        }
+
+        if(!sortTypeIsAvailable)
+            throw new Exception("BasicListOfProducts cant find expected sortType");
+    }
+
+    @Override
+    public void addSortTypes(SortProducts... sortProducts) {
+        this.availableSortTypes.addAll(List.of(sortProducts));
     }
 }
