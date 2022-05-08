@@ -3,10 +3,12 @@ package com.marcel_malewski.shopping_cart.list_of_products;
 import com.marcel_malewski.shopping_cart.Product;
 import com.marcel_malewski.shopping_cart.list_of_products.sort.SortProducts;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.util.*;
 
 @Getter
+@ToString
 public class BasicListOfProducts implements ListOfProducts {
     private Product[] listOfProducts;
     private final HashSet<SortProducts> availableSortTypes;

@@ -2,9 +2,11 @@ package com.marcel_malewski.shopping_cart;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class Product {
     //code is unique for every product
     private final String code;

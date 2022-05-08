@@ -174,7 +174,6 @@ class ShoppingCartTest {
 
         String expectedResult = "specialOfferAbove300pln";
 
-
         assertEquals(expectedResult, this.shoppingCart.getCurrentSpecialOffers().get(0));
     }
 

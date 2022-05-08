@@ -2,11 +2,13 @@ package com.marcel_malewski.shopping_cart.list_of_products.sort;
 
 import com.marcel_malewski.shopping_cart.Product;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.util.Arrays;
 import java.util.Comparator;
 
 @Getter
+@ToString
 public class SortProductsAscByPrice implements SortProducts{
     public String sortType;
 
