@@ -202,7 +202,31 @@ class ShoppingCartTest {
         assertEquals(expectedResult, this.shoppingCart.getCurrentSpecialOffers().size());
     }
 
-    //test czy uzycie przykladowej promocji dziala
+    // test czy uzycie przykladowej promocji dziala
+//    @Test
+//    void testIfSpecialOfferCanBeUsed() throws Exception {
+//        //Client
+//        //creating shopping cart with two products
+//        Product testProduct1 = new Product("1", "test", 1000);
+//        Product testProduct2 = new Product("2", "test", 10);
+//
+//        //add products to shopping cart
+//        this.shoppingCart.addProduct(testProduct1);
+//        this.shoppingCart.addProduct(testProduct2);
+//
+//        //create special offer order and special offer
+//        SpecialOffer specialOfferAbove300pln = new SpecialOfferAbove300pln();
+//        SpecialOfferOrder applySpecialOffer1 = new ApplySpecialOffer(specialOfferAbove300pln);
+//        SpecialOfferOrder applySpecialOffer2 = new ApplySpecialOffer(specialOfferAbove300pln);
+//
+//        //apply special offers orders
+//        this.shoppingCart.applySpecialOffers(applySpecialOffer1, applySpecialOffer2);
+//
+//        int expectedResult = 1;
+//
+//
+//        assertEquals(expectedResult, this.shoppingCart.getCurrentSpecialOffers().size());
+//    }
 
-    //test czy mogą się użyć dwie promocje na raz
+    // test czy mogą się użyć dwie promocje na raz
 }

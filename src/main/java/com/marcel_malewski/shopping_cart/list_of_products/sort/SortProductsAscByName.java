@@ -7,8 +7,8 @@ import lombok.ToString;
 import java.util.Arrays;
 import java.util.Comparator;
 
-@Getter
 @ToString
+@Getter
 public class SortProductsAscByName implements SortProducts{
     private final String sortType;
 

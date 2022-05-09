@@ -5,6 +5,7 @@ import com.marcel_malewski.shopping_cart.special_offer.special_offers.SpecialOff
 
 //interface of ConcreteCommand
 public interface SpecialOfferOrder {
+    SpecialOffer getSpecialOffer();
     boolean execute(ListOfProducts listOfProducts) throws Exception;
-    SpecialOffer specialOffer();
+
 }

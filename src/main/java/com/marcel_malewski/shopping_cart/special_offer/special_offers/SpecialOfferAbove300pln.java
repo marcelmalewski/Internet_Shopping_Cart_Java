@@ -6,7 +6,6 @@ import com.marcel_malewski.shopping_cart.list_of_products.ListOfProducts;
 import java.util.Objects;
 
 public class SpecialOfferAbove300pln extends SpecialOffer {
-
     public SpecialOfferAbove300pln() {
         this.name = "specialOfferAbove300pln";
     }

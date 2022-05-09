@@ -93,9 +93,9 @@ public class ShoppingCart {
         //array of concreteCommands
         //return special offer that were not used
         for(SpecialOfferOrder specialOfferOrder : specialOfferOrders) {
-            if(!this.currentSpecialOffers.contains(specialOfferOrder.specialOffer().getName())){
+            if(!this.currentSpecialOffers.contains(specialOfferOrder.getSpecialOffer().getName())){
                 if(specialOfferOrder.execute(this.listOfProducts)){
-                    this.currentSpecialOffers.add(specialOfferOrder.specialOffer().getName());
+                    this.currentSpecialOffers.add(specialOfferOrder.getSpecialOffer().getName());
                 }
             }
         }
