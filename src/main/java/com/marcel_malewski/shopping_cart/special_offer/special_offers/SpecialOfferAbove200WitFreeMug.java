@@ -6,8 +6,8 @@ import com.marcel_malewski.shopping_cart.list_of_products.ListOfProducts;
 import java.util.Objects;
 
 public class SpecialOfferAbove200WitFreeMug extends SpecialOffer {
-    public SpecialOfferAbove200WitFreeMug(String name) {
-        this.name = name;
+    public SpecialOfferAbove200WitFreeMug() {
+        this.name = "specialOfferAbove200WitFreeMug";
     }
 
     @Override

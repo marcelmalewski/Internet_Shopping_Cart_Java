@@ -6,8 +6,8 @@ import com.marcel_malewski.shopping_cart.list_of_products.ListOfProducts;
 import java.util.*;
 import java.util.stream.IntStream;
 public class SpecialOfferAbove2Products extends SpecialOffer {
-    public SpecialOfferAbove2Products(String name) {
-        this.name = name;
+    public SpecialOfferAbove2Products() {
+        this.name = "specialOfferAbove2Products";
     }
 
     private Product[] getFilteredListOfProducts(int numberOfNotFreeProducts, Product[] listOfProducts) {

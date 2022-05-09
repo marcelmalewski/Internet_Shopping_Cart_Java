@@ -5,11 +5,10 @@ import com.marcel_malewski.shopping_cart.list_of_products.ListOfProducts;
 
 import java.util.Objects;
 
-//jeśli wartość zamówienia jest większa niż 300 zł klient otrzymuje 5% zniżki na zakupione towary
 public class SpecialOfferAbove300pln extends SpecialOffer {
 
-    public SpecialOfferAbove300pln(String name) {
-        this.name = name;
+    public SpecialOfferAbove300pln() {
+        this.name = "specialOfferAbove300pln";
     }
 
     @Override

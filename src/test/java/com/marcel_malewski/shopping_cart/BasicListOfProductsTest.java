@@ -107,6 +107,26 @@ class BasicListOfProductsTest {
     }
 
     @Test
+    void testIfGet6ProductsWhenWeHave2Works() {
+        this.basicListOfProducts = new BasicListOfProducts();
+
+        Product product1 = new Product("1", "testA", 12.3);
+        Product product2 = new Product("2", "testB", 12.3);
+        Product product3 = new Product("3", "testC", 12.3);
+
+        this.basicListOfProducts.addProduct(product1);
+        this.basicListOfProducts.addProduct(product2);
+        this.basicListOfProducts.addProduct(product3);
+
+        Product[] expectedResult = new Product[6];
+        expectedResult[0] = product1;
+        expectedResult[1] = product2;
+        expectedResult[2] = product3;
+
+        assertArrayEquals(expectedResult, this.basicListOfProducts.getProducts(6));
+    }
+
+    @Test
     void testIfDiscountPricesAreSummedCorrect() {
         this.basicListOfProducts = new BasicListOfProducts();
 

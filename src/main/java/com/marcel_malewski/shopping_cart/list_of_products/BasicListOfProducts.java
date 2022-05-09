@@ -22,7 +22,6 @@ public class BasicListOfProducts implements ListOfProducts {
     public BasicListOfProducts(SortProducts ... sortProducts) {
         //we start with 5 free spaces
         this.listOfProducts = new Product[5];
-
         this.availableSortTypes = new HashSet<>(List.of(sortProducts));
     }
 
@@ -94,7 +93,6 @@ public class BasicListOfProducts implements ListOfProducts {
             this.listOfProducts = getListOfProductsWithoutNulls();
         }
 
-        //we inform if element was removed
         return elementWasRemoved;
     }
 

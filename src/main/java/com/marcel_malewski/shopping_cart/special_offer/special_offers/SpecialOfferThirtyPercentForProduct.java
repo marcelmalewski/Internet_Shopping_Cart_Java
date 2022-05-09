@@ -8,8 +8,8 @@ import java.util.Objects;
 public class SpecialOfferThirtyPercentForProduct extends SpecialOffer {
     private final Product product;
 
-    public SpecialOfferThirtyPercentForProduct(Product product, String name) {
-        this.name = name;
+    public SpecialOfferThirtyPercentForProduct(Product product) {
+        this.name = "specialOfferThirtyPercentForProduct";
         this.product = product;
     }
 
