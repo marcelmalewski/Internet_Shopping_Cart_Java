@@ -31,19 +31,20 @@ public class SortProductsAscByName implements SortProducts{
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + this.sortType.charAt(0);
+        result = prime * result + this.sortType.charAt(0) + this.sortType.length();
         return result;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
+        if(obj == null)
             return false;
+        if (obj == this)
+            return true;
         if (getClass() != obj.getClass())
             return false;
-        SortProductsAscByName other = (SortProductsAscByName) obj;
-        return this.sortType.equals(other.getSortType());
+
+        SortProductsAscByName s = (SortProductsAscByName) obj;
+        return this.sortType.equals(s.getSortType());
     }
 }

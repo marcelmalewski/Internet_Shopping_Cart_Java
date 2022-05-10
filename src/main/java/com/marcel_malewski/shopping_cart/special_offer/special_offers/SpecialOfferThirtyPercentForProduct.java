@@ -2,10 +2,15 @@ package com.marcel_malewski.shopping_cart.special_offer.special_offers;
 
 import com.marcel_malewski.shopping_cart.list_of_products.ListOfProducts;
 import com.marcel_malewski.shopping_cart.Product;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.util.Objects;
 
-public class SpecialOfferThirtyPercentForProduct extends SpecialOffer {
+@ToString
+@Getter
+public class SpecialOfferThirtyPercentForProduct implements SpecialOffer {
+    private final String name;
     private final Product product;
 
     public SpecialOfferThirtyPercentForProduct(Product product) {

@@ -6,8 +6,8 @@ import lombok.Getter;
 import lombok.ToString;
 
 //concrete Command
-@Getter
 @ToString
+@Getter
 public final class ApplySpecialOffer implements SpecialOfferOrder {
     private final SpecialOffer specialOffer;
 
