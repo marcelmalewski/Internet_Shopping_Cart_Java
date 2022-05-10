@@ -29,10 +29,12 @@ public class SpecialOfferThirtyPercentForProduct implements SpecialOffer {
             if(product.getName().equals(this.product.getName())) {
                 double thirtyPercentOfPrice = product.getPrice() * 0.30;
 
-                if(product.getDiscountPrice() - thirtyPercentOfPrice < 0)
+                if(product.getDiscountPrice() - thirtyPercentOfPrice < 0){
                     product.setDiscountPrice(0);
-                else
-                    product.setDiscountPrice(product.getDiscountPrice() - thirtyPercentOfPrice);
+                    break;
+                }
+
+                product.setDiscountPrice(product.getDiscountPrice() - thirtyPercentOfPrice);
                 //discount only one product
                 break;
             }

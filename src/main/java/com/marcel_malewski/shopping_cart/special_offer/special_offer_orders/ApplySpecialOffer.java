@@ -8,11 +8,10 @@ public record ApplySpecialOffer(SpecialOffer specialOffer) implements SpecialOff
 
     @Override
     public boolean execute(ListOfProducts listOfProducts) throws Exception {
-        if (this.specialOffer.canApply(listOfProducts)) {
-            this.specialOffer.apply(listOfProducts);
-            return true;
-        } else {
+        if(!this.specialOffer.canApply(listOfProducts))
             return false;
-        }
+
+        this.specialOffer.apply(listOfProducts);
+        return true;
     }
 }

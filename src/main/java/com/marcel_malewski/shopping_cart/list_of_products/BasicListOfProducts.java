@@ -79,10 +79,12 @@ public class BasicListOfProducts implements ListOfProducts {
 
         //we try to remove element and count number of empty spaces in same loop
         for(int i=0; i<this.listOfProducts.length; i++) {
-            if(Objects.isNull(this.listOfProducts[i]))
+            if(Objects.isNull(this.listOfProducts[i])) {
                 numberOfEmptySpaces++;
+                continue;
+            }
 
-            else if(this.listOfProducts[i].getCode().equals(productToDelete.getCode())) {
+            if(this.listOfProducts[i].getCode().equals(productToDelete.getCode())) {
                 this.listOfProducts[i] = null;
                 elementWasRemoved = true;
             }
@@ -139,7 +141,7 @@ public class BasicListOfProducts implements ListOfProducts {
                 if(Objects.isNull(product))
                     return optionalCheapestProduct;
 
-                else if(product.getPrice() < optionalCheapestProduct.get().getPrice())
+                if(product.getPrice() < optionalCheapestProduct.get().getPrice())
                     optionalCheapestProduct = Optional.of(product);
 
             }
@@ -160,7 +162,7 @@ public class BasicListOfProducts implements ListOfProducts {
                 if(Objects.isNull(product))
                     return optionalExpensiveProduct;
 
-                else if(product.getPrice() > optionalExpensiveProduct.get().getPrice())
+                if(product.getPrice() > optionalExpensiveProduct.get().getPrice())
                     optionalExpensiveProduct = Optional.of(product);
 
             }

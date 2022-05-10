@@ -34,29 +34,30 @@ public class SpecialOfferAbove2Products implements SpecialOffer {
         int indexOfProductToSetFree = filteredListOfProducts.length - 1;
 
         for(int i=0; i<filteredListOfProducts.length; i += 2) {
-            //if we have two not free products
-            if(filteredListOfProducts[i].getDiscountPrice() > 0 && filteredListOfProducts[i+1].getDiscountPrice() > 0 ){
-                //we setDiscountPrice to zero for cheapest product
-                if(indexOfProductToSetFree > i + 1) {
-                    final int finalIndexOfProductToSetFree = indexOfProductToSetFree;
-
-                    filteredListOfProducts[finalIndexOfProductToSetFree].setDiscountPrice(0);
-
-                    OptionalInt indexOfProductInOriginalList = IntStream.range(0, listOfProducts.length)
-                            .filter(a -> filteredListOfProducts[finalIndexOfProductToSetFree].equals(listOfProducts[a]))
-                            .findFirst();
-
-                    if(indexOfProductInOriginalList.isPresent()) {
-                        listOfProducts[indexOfProductInOriginalList.getAsInt()].setDiscountPrice(0);
-                    } else {
-                        throw new Exception("cant get index of product");
-                    }
-
-                    indexOfProductToSetFree--;
-                } else break;
-            } else
-                //if we do not have two not free products we can break loop
+            //if we do not have two not free products we can break loop
+            if(filteredListOfProducts[i].getDiscountPrice() == 0 || filteredListOfProducts[i+1].getDiscountPrice() == 0 )
                 break;
+
+            //komentarz
+            if(indexOfProductToSetFree <= i + 1)
+                break;
+
+            //we setDiscountPrice to zero for cheapest product
+            final int finalIndexOfProductToSetFree = indexOfProductToSetFree;
+
+            filteredListOfProducts[finalIndexOfProductToSetFree].setDiscountPrice(0);
+
+            OptionalInt indexOfProductInOriginalList = IntStream.range(0, listOfProducts.length)
+                    .filter(a -> filteredListOfProducts[finalIndexOfProductToSetFree].equals(listOfProducts[a]))
+                    .findFirst();
+
+            //komentarz
+            if(indexOfProductInOriginalList.isEmpty())
+                throw new Exception("cant get index of product");
+
+            listOfProducts[indexOfProductInOriginalList.getAsInt()].setDiscountPrice(0);
+
+            indexOfProductToSetFree--;
         }
     }
 
@@ -84,7 +85,8 @@ public class SpecialOfferAbove2Products implements SpecialOffer {
         for(Product product : listOfProducts) {
             if(Objects.isNull(product))
                 break;
-            else if(product.getDiscountPrice() > 0)
+
+            if(product.getDiscountPrice() > 0)
                 numberOfProducts++;
         }
 

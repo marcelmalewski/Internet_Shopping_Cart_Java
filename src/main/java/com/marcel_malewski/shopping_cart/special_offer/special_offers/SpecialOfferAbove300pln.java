@@ -23,10 +23,13 @@ public class SpecialOfferAbove300pln implements SpecialOffer {
             //in case some product already had some special offer
             //count 5 percent of original price
             double fivePercentOfPrice = product.getPrice() * 0.05;
-            if(product.getDiscountPrice() - fivePercentOfPrice < 0)
+
+            if(product.getDiscountPrice() - fivePercentOfPrice < 0){
                 product.setDiscountPrice(0);
-            else
-                product.setDiscountPrice(product.getDiscountPrice() - fivePercentOfPrice);
+                break;
+            }
+
+            product.setDiscountPrice(product.getDiscountPrice() - fivePercentOfPrice);
         }
     }
 
