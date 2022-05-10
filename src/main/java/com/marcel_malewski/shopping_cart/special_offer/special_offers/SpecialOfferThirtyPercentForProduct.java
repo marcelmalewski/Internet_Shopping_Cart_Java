@@ -33,6 +33,8 @@ public class SpecialOfferThirtyPercentForProduct implements SpecialOffer {
                     product.setDiscountPrice(0);
                 else
                     product.setDiscountPrice(product.getDiscountPrice() - thirtyPercentOfPrice);
+                //discount only one product
+                break;
             }
         }
     }

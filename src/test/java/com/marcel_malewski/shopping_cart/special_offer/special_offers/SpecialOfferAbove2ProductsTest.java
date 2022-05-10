@@ -20,38 +20,33 @@ class SpecialOfferAbove2ProductsTest {
 
     @Test
     void testIfSpecialOfferAbove2ProductsApplyWorksCorrect() throws Exception {
-        Product Product1 = new Product("1", "test", 12);
-        Product Product2 = new Product("2", "test", 9);
-        Product Product3 = new Product("3", "test", 10);
+        Product product1 = new Product("1", "test", 12);
+        Product product2 = new Product("2", "test", 9);
+        Product product3 = new Product("3", "test", 10);
 
-        this.basicListOfProducts.addProduct(Product1);
-        this.basicListOfProducts.addProduct(Product2);
-        this.basicListOfProducts.addProduct(Product3);
+        this.basicListOfProducts.addProduct(product1);
+        this.basicListOfProducts.addProduct(product2);
+        this.basicListOfProducts.addProduct(product3);
 
         this.specialOfferAbove2Products.apply(this.basicListOfProducts);
 
-        //change price
-        Product1.setDiscountPrice(12);
-        Product2.setDiscountPrice(0);
-        Product2.setDiscountPrice(10);
-
         Product[] expectedResult = new Product[5];
-        expectedResult[0] = Product1;
-        expectedResult[1] = Product2;
-        expectedResult[2] = Product3;
+        expectedResult[0] = new Product("1", "test", 12);
+        expectedResult[1] = new Product("2", "test", 9, 0);
+        expectedResult[2] = new Product("3", "test", 10);
 
         assertArrayEquals(expectedResult , this.basicListOfProducts.getListOfProducts());
     }
 
     @Test
     void testIfSpecialOfferAbove2ProductsCanApplyReturnFalseWhenThereIsLessThan3NotFreeProducts() {
-        Product testProduct1 = new Product("1", "test", 12);
-        Product testProduct2 = new Product("2", "test", 9);
-        Product testProduct3 = new Product("3", "test", 0);
+        Product product1 = new Product("1", "test", 12);
+        Product product2 = new Product("2", "test", 9);
+        Product product3 = new Product("3", "test", 0);
 
-        this.basicListOfProducts.addProduct(testProduct1);
-        this.basicListOfProducts.addProduct(testProduct2);
-        this.basicListOfProducts.addProduct(testProduct3);
+        this.basicListOfProducts.addProduct(product1);
+        this.basicListOfProducts.addProduct(product2);
+        this.basicListOfProducts.addProduct(product3);
 
         assertFalse(this.specialOfferAbove2Products.canApply(this.basicListOfProducts));
     }

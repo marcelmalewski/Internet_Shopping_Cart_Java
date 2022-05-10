@@ -84,7 +84,7 @@ public class ShoppingCart {
     }
 
     //shoppingCart is only invoker
-    public double getCostOfShoppingCart() {
+    public double getCurrentCostOfShoppingCart() {
         return listOfProducts.getSumDiscountPricesOfAllProducts();
     }
 
@@ -93,9 +93,9 @@ public class ShoppingCart {
         //array of concreteCommands
         //return special offer that were not used
         for(SpecialOfferOrder specialOfferOrder : specialOfferOrders) {
-            if(!this.currentSpecialOffers.contains(specialOfferOrder.getSpecialOffer().getName())){
+            if(!this.currentSpecialOffers.contains(specialOfferOrder.specialOffer().getName())){
                 if(specialOfferOrder.execute(this.listOfProducts)){
-                    this.currentSpecialOffers.add(specialOfferOrder.getSpecialOffer().getName());
+                    this.currentSpecialOffers.add(specialOfferOrder.specialOffer().getName());
                 }
             }
         }
@@ -109,6 +109,10 @@ public class ShoppingCart {
             this.listOfProducts.sort(currentSortType);
 
         return listOfProducts.getListOfProducts();
+    }
+
+    public void addNewSortType(SortProducts... sortProducts) {
+        this.listOfProducts.addSortTypes(sortProducts);
     }
 
     public HashSet<SortProducts> getAvailableSortTypes() {

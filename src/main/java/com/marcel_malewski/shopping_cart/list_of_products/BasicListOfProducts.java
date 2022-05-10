@@ -184,6 +184,11 @@ public class BasicListOfProducts implements ListOfProducts {
     }
 
     @Override
+    public void addSortTypes(SortProducts... sortProducts) {
+        this.availableSortTypes.addAll(List.of(sortProducts));
+    }
+
+    @Override
     public void sort(String sortType) throws Exception {
         boolean sortTypeIsAvailable = false;
 
@@ -197,10 +202,5 @@ public class BasicListOfProducts implements ListOfProducts {
 
         if(!sortTypeIsAvailable)
             throw new Exception("BasicListOfProducts cant find expected sortType");
-    }
-
-    @Override
-    public void addSortTypes(SortProducts... sortProducts) {
-        this.availableSortTypes.addAll(List.of(sortProducts));
     }
 }

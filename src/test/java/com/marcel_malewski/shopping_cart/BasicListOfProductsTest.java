@@ -12,6 +12,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BasicListOfProductsTest {
     BasicListOfProducts basicListOfProducts;
+
+    @Test
+    void testIfPassedTwoSameSortTypesToConstructorWillNotSaveTwoSortTypes() {
+        SortProducts sortProductsAscByPrice = new SortProductsAscByPrice();
+
+        this.basicListOfProducts = new BasicListOfProducts(sortProductsAscByPrice, sortProductsAscByPrice);
+
+        HashSet<SortProducts> expectedResult = new HashSet<>();
+        expectedResult.add(sortProductsAscByPrice);
+
+        assertEquals(expectedResult, this.basicListOfProducts.getAvailableSortTypes());
+    }
     @Test
     void testIfProductIsAddedToListOfProducts() {
         this.basicListOfProducts = new BasicListOfProducts();
@@ -107,7 +119,7 @@ class BasicListOfProductsTest {
     }
 
     @Test
-    void testIfGet6ProductsWhenWeHave2Works() {
+    void testIfGetSixProductsWhenWeHave2Works() {
         this.basicListOfProducts = new BasicListOfProducts();
 
         Product product1 = new Product("1", "testA", 12.3);
@@ -172,6 +184,13 @@ class BasicListOfProductsTest {
     }
 
     @Test
+    void testIfGetCheapestProductWillReturnEmptyOptionalWhenShoppingCartIsEmpty() {
+        this.basicListOfProducts = new BasicListOfProducts();
+
+        assertTrue(this.basicListOfProducts.getCheapestProduct().isEmpty());
+    }
+
+    @Test
     void testIfGetCheapestProductWillReturnCorrectProduct() {
         this.basicListOfProducts = new BasicListOfProducts();
 
@@ -200,7 +219,7 @@ class BasicListOfProductsTest {
     }
 
     @Test
-    void testIfGetExpensiveProductWillReturnCorrectProduct() {
+    void testIfGetMostExpensiveProductWillReturnCorrectProduct() {
         this.basicListOfProducts = new BasicListOfProducts();
 
         Product testProduct1 = new Product("1", "test", 3.1);
@@ -248,6 +267,20 @@ class BasicListOfProductsTest {
 
         assertEquals(expectedResult, this.basicListOfProducts.getAvailableSortTypes());
     }
+
+    @Test
+    void testIfSameSortTypeIsAddedTwoTimesSecondOneIsNotAdded() {
+        this.basicListOfProducts = new BasicListOfProducts();
+        SortProducts sortProductsAscByPrice = new SortProductsAscByPrice();
+
+        this.basicListOfProducts.addSortTypes(sortProductsAscByPrice);
+
+        HashSet<SortProducts> expectedResult = new HashSet<>();
+        expectedResult.add(sortProductsAscByPrice);
+
+        assertEquals(expectedResult, this.basicListOfProducts.getAvailableSortTypes());
+    }
+
     @Test
     void testIfAddedSortTypeWorks() throws Exception {
         SortProducts sortProductsAscByPrice = new SortProductsAscByPrice();
@@ -267,5 +300,17 @@ class BasicListOfProductsTest {
         expectedResult[1] = product1;
 
         assertArrayEquals(expectedResult, this.basicListOfProducts.getListOfProducts());
+    }
+
+    @Test
+    void testTestTryUseSortThatIsNotAvailableShouldThrowException() {
+        this.basicListOfProducts = new BasicListOfProducts();
+
+        Exception exception = assertThrows(Exception.class, () -> this.basicListOfProducts.sort(""));
+
+        String expectedMessage = "BasicListOfProducts cant find expected sortType";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
     }
 }

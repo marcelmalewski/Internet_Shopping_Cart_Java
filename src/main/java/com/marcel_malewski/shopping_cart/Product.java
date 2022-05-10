@@ -21,6 +21,13 @@ public class Product {
         this.discountPrice = price;
     }
 
+    public Product(String code, String name, double price, double discountPrice) {
+        this.code = code;
+        this.name = name;
+        this.price = price;
+        this.discountPrice = discountPrice;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;

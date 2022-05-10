@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class SortProductsAscByPriceTest {
 
     @Test
-    void sort() {
+    void testIfSortWorksCorrect() {
         Product product1 = new Product("1", "test", 12.3);
         Product product2 = new Product("2", "test", 11.3);
 
