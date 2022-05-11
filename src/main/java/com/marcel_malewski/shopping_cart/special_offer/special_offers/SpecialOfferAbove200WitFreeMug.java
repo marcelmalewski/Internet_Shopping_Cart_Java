@@ -11,6 +11,7 @@ import java.util.Objects;
 @Getter
 public class SpecialOfferAbove200WitFreeMug implements SpecialOffer {
     private final String name;
+
     public SpecialOfferAbove200WitFreeMug() {
         this.name = "specialOfferAbove200WitFreeMug";
     }
@@ -29,9 +30,7 @@ public class SpecialOfferAbove200WitFreeMug implements SpecialOffer {
 
             if(product.getName().equals("Mug") && product.getDiscountPrice() == 0)
                 return true;
-
         }
-
         return false;
     }
 

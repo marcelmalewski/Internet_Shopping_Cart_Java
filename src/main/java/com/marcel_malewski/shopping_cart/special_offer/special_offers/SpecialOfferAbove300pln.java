@@ -11,6 +11,7 @@ import java.util.Objects;
 @Getter
 public class SpecialOfferAbove300pln implements SpecialOffer {
     private final String name;
+
     public SpecialOfferAbove300pln() {
         this.name = "specialOfferAbove300pln";
     }
@@ -38,17 +39,16 @@ public class SpecialOfferAbove300pln implements SpecialOffer {
         //sum of real prices have to be bigger than 300
         if(listOfProducts.getSumPricesOfAllProducts() < 300)
             return false;
+
         //is some product is already free we can not use this special offer
         for (Product product : listOfProducts.getListOfProducts()) {
             //ignore nulls
             if(Objects.isNull(product))
                 break;
 
-            if(product.getDiscountPrice() == 0) {
+            if(product.getDiscountPrice() == 0)
                 return false;
-            }
         }
-
         return true;
     }
 }

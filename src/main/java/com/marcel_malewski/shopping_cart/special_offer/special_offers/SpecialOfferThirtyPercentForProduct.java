@@ -46,12 +46,12 @@ public class SpecialOfferThirtyPercentForProduct implements SpecialOffer {
         for (Product product : listOfProducts.getListOfProducts()) {
             if(Objects.isNull(product))
                 break;
+
             //discount is for specific product so first this product has to be in list of products and can not be free
             if(product.getName().equals(this.product.getName()) && product.getDiscountPrice() > 0) {
                 return true;
             }
         }
-
         return false;
     }
 }

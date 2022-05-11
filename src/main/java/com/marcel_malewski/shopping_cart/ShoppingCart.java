@@ -68,19 +68,20 @@ public class ShoppingCart {
     public void defaultSort() {
         this.currentSortType = "default";
     }
+
     public void sort(String newSortType) throws Exception {
         boolean newSortTypeIsAvailable = false;
+
         //check if new sortType is available
         for(SortProducts sortProducts : this.listOfProducts.getAvailableSortTypes()) {
             if(sortProducts.getSortType().equals(newSortType))
                 newSortTypeIsAvailable = true;
         }
 
-        if(newSortTypeIsAvailable) {
-            this.currentSortType = newSortType;
-        } else {
+        if(!newSortTypeIsAvailable)
             throw new Exception("shopping cart cant find expected sortType");
-        }
+
+        this.currentSortType = newSortType;
     }
 
     //shoppingCart is only invoker
@@ -93,10 +94,11 @@ public class ShoppingCart {
         //array of concreteCommands
         //return special offer that were not used
         for(SpecialOfferOrder specialOfferOrder : specialOfferOrders) {
-            if(!this.currentSpecialOffers.contains(specialOfferOrder.specialOffer().getName())){
-                if(specialOfferOrder.execute(this.listOfProducts)){
-                    this.currentSpecialOffers.add(specialOfferOrder.specialOffer().getName());
-                }
+            if(this.currentSpecialOffers.contains(specialOfferOrder.specialOffer().getName()))
+                break;
+
+            if(specialOfferOrder.execute(this.listOfProducts)){
+                this.currentSpecialOffers.add(specialOfferOrder.specialOffer().getName());
             }
         }
     }

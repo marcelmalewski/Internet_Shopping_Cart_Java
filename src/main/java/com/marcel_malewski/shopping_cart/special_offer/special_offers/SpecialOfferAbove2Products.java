@@ -12,6 +12,7 @@ import java.util.stream.IntStream;
 @Getter
 public class SpecialOfferAbove2Products implements SpecialOffer {
     private final String name;
+
     public SpecialOfferAbove2Products() {
         this.name = "specialOfferAbove2Products";
     }

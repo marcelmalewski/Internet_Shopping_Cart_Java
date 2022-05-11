@@ -5,7 +5,6 @@ import com.marcel_malewski.shopping_cart.special_offer.special_offers.SpecialOff
 
 //concrete Command
 public record ApplySpecialOffer(SpecialOffer specialOffer) implements SpecialOfferOrder {
-
     @Override
     public boolean execute(ListOfProducts listOfProducts) throws Exception {
         if(!this.specialOffer.canApply(listOfProducts))

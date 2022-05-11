@@ -29,10 +29,11 @@ public class BasicListOfProducts implements ListOfProducts {
         OptionalInt optionalIndex = OptionalInt.empty();
 
         for(int i=0; i<listOfProducts.length; i++) {
-            if(Objects.isNull(listOfProducts[i])) {
-                optionalIndex = OptionalInt.of(i);
-                break;
-            }
+            if(Objects.nonNull(listOfProducts[i]))
+                continue;
+
+            optionalIndex = OptionalInt.of(i);
+            break;
         }
 
         return optionalIndex;
@@ -44,71 +45,98 @@ public class BasicListOfProducts implements ListOfProducts {
         OptionalInt optionalIndex = getIndexOfEmptySpace(this.listOfProducts);
 
         if(optionalIndex.isEmpty()) {
-            Product[] biggerListOfProducts =
-                    Arrays.copyOf(this.listOfProducts, this.listOfProducts.length + 5);
+            this.listOfProducts = Arrays.copyOf(this.listOfProducts, this.listOfProducts.length + 5);
 
-            optionalIndex = OptionalInt.of(this.listOfProducts.length);
-
-            this.listOfProducts = biggerListOfProducts;
+            optionalIndex = OptionalInt.of(this.listOfProducts.length - 5);
         }
 
         //add element
         this.listOfProducts[optionalIndex.getAsInt()] = newProduct;
     }
 
-    private Product[] getListOfProductsWithoutNulls() {
+    private Product[] getListOfProductsWithoutRedundantNulls() {
         //5 free spaces are always added or removed
         Product[] filteredListOfProducts = new Product[this.listOfProducts.length - 5];
 
         int index = 0;
         for(Product product : this.listOfProducts) {
-            if(Objects.nonNull(product)) {
-                filteredListOfProducts[index] = product;
-                index++;
-            }
+            if(Objects.isNull(product))
+                break;
+
+            filteredListOfProducts[index] = product;
+            index++;
         }
 
         return filteredListOfProducts;
     }
 
+    private int currentNumberOfEmptySpaces() {
+        int numberOfEmptySpaces = 0;
+
+        for (Product listOfProduct : this.listOfProducts) {
+            if(Objects.nonNull(listOfProduct))
+                continue;
+
+            numberOfEmptySpaces++;
+        }
+
+        return numberOfEmptySpaces;
+    }
+
+    private Optional<Integer> getIndexOfProduct(Product product) {
+        Optional<Integer> optionalIndexOfProduct = Optional.empty();
+
+        for(int i=0; i<this.listOfProducts.length; i++) {
+            if(Objects.isNull(this.listOfProducts[i]))
+                break;
+
+            if (!this.listOfProducts[i].equals(product))
+                continue;
+
+            optionalIndexOfProduct = Optional.of(i);
+        }
+
+        return optionalIndexOfProduct;
+    }
+
+    private void cleanListOfProductsFromRedundantFreeSpaces() {
+        int numberOfEmptySpaces = currentNumberOfEmptySpaces();
+
+        if(numberOfEmptySpaces < 5 || this.listOfProducts.length <= 5)
+            return;
+
+        //we remove excess of free space, because in this list of products we have max 4 empty spaces
+        this.listOfProducts = getListOfProductsWithoutRedundantNulls();
+    }
+
     @Override
     public boolean removeProduct(Product productToDelete){
-        //one element will be deleted, so we start with one emptySpace
-        int numberOfEmptySpaces = 1;
-        boolean elementWasRemoved = false;
+        Optional<Integer> optionalIndexOfProduct = getIndexOfProduct(productToDelete);
 
-        //we try to remove element and count number of empty spaces in same loop
-        for(int i=0; i<this.listOfProducts.length; i++) {
-            if(Objects.isNull(this.listOfProducts[i])) {
-                numberOfEmptySpaces++;
-                continue;
-            }
+        if(optionalIndexOfProduct.isEmpty())
+            return false;
 
-            if(this.listOfProducts[i].getCode().equals(productToDelete.getCode())) {
-                this.listOfProducts[i] = null;
-                elementWasRemoved = true;
-            }
-        }
+        this.listOfProducts[optionalIndexOfProduct.get()] = null;
 
-        if(elementWasRemoved && numberOfEmptySpaces == 5 && this.listOfProducts.length > 5) {
-            //we remove excess of free space, because in this list of products we have max 4 empty spaces
-            this.listOfProducts = getListOfProductsWithoutNulls();
-        }
+        cleanListOfProductsFromRedundantFreeSpaces();
 
-        return elementWasRemoved;
+        return true;
     }
 
     public Product[] getProducts(int numberOfElements) {
         return Arrays.copyOf(this.listOfProducts, numberOfElements);
     }
+
     @Override
     public double getSumDiscountPricesOfAllProducts() {
         double sum = 0;
 
         for (Product product : this.listOfProducts) {
             //ignore nulls
-            if (!Objects.isNull(product))
-                sum += product.getDiscountPrice();
+            if (Objects.isNull(product))
+                break;
+
+            sum += product.getDiscountPrice();
         }
 
         return Math.round(sum * Math.pow(10, 2))
@@ -121,8 +149,10 @@ public class BasicListOfProducts implements ListOfProducts {
 
         for (Product product : this.listOfProducts) {
             //ignore nulls
-            if (!Objects.isNull(product))
-                sum += product.getPrice();
+            if (Objects.isNull(product))
+                break;
+
+            sum += product.getPrice();
         }
 
         return Math.round(sum * Math.pow(10, 2))
