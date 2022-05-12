@@ -69,16 +69,19 @@ public class ShoppingCart {
         this.currentSortType = "default";
     }
 
-    public void sort(String newSortType) throws Exception {
-        boolean newSortTypeIsAvailable = false;
+    private boolean checkIsSortTypeIsAvailable(String sortType) {
+        boolean sortTypeIsAvailable = false;
 
-        //check if new sortType is available
         for(SortProducts sortProducts : this.listOfProducts.getAvailableSortTypes()) {
-            if(sortProducts.getSortType().equals(newSortType))
-                newSortTypeIsAvailable = true;
+            if(sortProducts.getSortType().equals(sortType))
+                sortTypeIsAvailable = true;
         }
 
-        if(!newSortTypeIsAvailable)
+        return sortTypeIsAvailable;
+    }
+
+    public void sort(String newSortType) throws Exception {
+        if(!checkIsSortTypeIsAvailable(newSortType))
             throw new Exception("shopping cart cant find expected sortType");
 
         this.currentSortType = newSortType;

@@ -22,13 +22,25 @@ public class SpecialOfferAbove2Products implements SpecialOffer {
 
         int index = 0;
         for(Product product : listOfProducts) {
-            if(Objects.nonNull(product)) {
-                filteredListOfProducts[index] = product;
-                index++;
-            }
+            if(Objects.isNull(product)) break;
+
+            filteredListOfProducts[index] = product;
+            index++;
         }
 
         return filteredListOfProducts;
+    }
+
+    private void setProductFreeInOriginalArray(Product[] filteredListOfProducts, Product[] listOfProducts, int finalIndexOfProductToSetFree) throws Exception {
+        OptionalInt indexOfProductInOriginalList = IntStream.range(0, listOfProducts.length)
+                .filter(a -> filteredListOfProducts[finalIndexOfProductToSetFree].equals(listOfProducts[a]))
+                .findFirst();
+
+        //komentarz
+        if(indexOfProductInOriginalList.isEmpty())
+            throw new Exception("cant get index of product");
+
+        listOfProducts[indexOfProductInOriginalList.getAsInt()].setDiscountPrice(0);
     }
 
     private void setProductsFree(Product[] filteredListOfProducts, Product[] listOfProducts) throws Exception {
@@ -48,15 +60,7 @@ public class SpecialOfferAbove2Products implements SpecialOffer {
 
             filteredListOfProducts[finalIndexOfProductToSetFree].setDiscountPrice(0);
 
-            OptionalInt indexOfProductInOriginalList = IntStream.range(0, listOfProducts.length)
-                    .filter(a -> filteredListOfProducts[finalIndexOfProductToSetFree].equals(listOfProducts[a]))
-                    .findFirst();
-
-            //komentarz
-            if(indexOfProductInOriginalList.isEmpty())
-                throw new Exception("cant get index of product");
-
-            listOfProducts[indexOfProductInOriginalList.getAsInt()].setDiscountPrice(0);
+            setProductFreeInOriginalArray(filteredListOfProducts, listOfProducts, finalIndexOfProductToSetFree);
 
             indexOfProductToSetFree--;
         }
@@ -87,8 +91,10 @@ public class SpecialOfferAbove2Products implements SpecialOffer {
             if(Objects.isNull(product))
                 break;
 
-            if(product.getDiscountPrice() > 0)
-                numberOfProducts++;
+            if(product.getDiscountPrice() == 0)
+                continue;
+
+            numberOfProducts++;
         }
 
         return numberOfProducts;
