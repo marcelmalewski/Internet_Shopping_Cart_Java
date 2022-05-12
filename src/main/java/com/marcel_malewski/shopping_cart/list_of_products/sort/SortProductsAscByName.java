@@ -21,6 +21,7 @@ public class SortProductsAscByName implements SortProducts{
         Comparator<Product> productComparator
                 = Comparator.comparing(Product::getName);
 
+        //in list of products can be null
         Comparator<Product> productNameComparator_nullLast
                 = Comparator.nullsLast(productComparator);
 

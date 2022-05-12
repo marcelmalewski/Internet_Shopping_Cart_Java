@@ -206,7 +206,7 @@ class BasicListOfProductsTest {
     }
 
     @Test
-    void testIfGetExpensiveProductWillReturnProductAtAll() {
+    void testIfGetMostExpensiveProductWillReturnProductAtAll() {
         this.basicListOfProducts = new BasicListOfProducts();
 
         Product testProduct1 = new Product("1", "test", 3.1);

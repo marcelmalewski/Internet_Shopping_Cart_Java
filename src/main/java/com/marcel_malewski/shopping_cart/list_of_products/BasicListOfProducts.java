@@ -14,13 +14,13 @@ public class BasicListOfProducts implements ListOfProducts {
     private final HashSet<SortProducts> availableSortTypes;
 
     public BasicListOfProducts() {
-        //we start with 5 free spaces
+        //start with 5 free spaces
         this.listOfProducts = new Product[5];
         this.availableSortTypes = new HashSet<>();
     }
 
     public BasicListOfProducts(SortProducts ... sortProducts) {
-        //we start with 5 free spaces
+        //start with 5 free spaces
         this.listOfProducts = new Product[5];
         this.availableSortTypes = new HashSet<>(List.of(sortProducts));
     }
@@ -45,42 +45,13 @@ public class BasicListOfProducts implements ListOfProducts {
         OptionalInt optionalIndex = getIndexOfEmptySpace(this.listOfProducts);
 
         if(optionalIndex.isEmpty()) {
+            //expand list of products
             this.listOfProducts = Arrays.copyOf(this.listOfProducts, this.listOfProducts.length + 5);
 
             optionalIndex = OptionalInt.of(this.listOfProducts.length - 5);
         }
 
-        //add element
         this.listOfProducts[optionalIndex.getAsInt()] = newProduct;
-    }
-
-    private Product[] getListOfProductsWithoutRedundantNulls() {
-        //5 free spaces are always added or removed
-        Product[] filteredListOfProducts = new Product[this.listOfProducts.length - 5];
-
-        int index = 0;
-        for(Product product : this.listOfProducts) {
-            if(Objects.isNull(product))
-                break;
-
-            filteredListOfProducts[index] = product;
-            index++;
-        }
-
-        return filteredListOfProducts;
-    }
-
-    private int currentNumberOfEmptySpaces() {
-        int numberOfEmptySpaces = 0;
-
-        for (Product listOfProduct : this.listOfProducts) {
-            if(Objects.nonNull(listOfProduct))
-                continue;
-
-            numberOfEmptySpaces++;
-        }
-
-        return numberOfEmptySpaces;
     }
 
     private Optional<Integer> getIndexOfProduct(Product product) {
@@ -97,6 +68,23 @@ public class BasicListOfProducts implements ListOfProducts {
         }
 
         return optionalIndexOfProduct;
+    }
+
+    private Product[] getListOfProductsWithoutRedundantNulls() {
+        return Arrays.copyOf(this.listOfProducts, this.listOfProducts.length - 5);
+    }
+
+    private int currentNumberOfEmptySpaces() {
+        int numberOfEmptySpaces = 0;
+
+        for (Product listOfProduct : this.listOfProducts) {
+            if(Objects.nonNull(listOfProduct))
+                continue;
+
+            numberOfEmptySpaces++;
+        }
+
+        return numberOfEmptySpaces;
     }
 
     private void cleanListOfProductsFromRedundantFreeSpaces() {
@@ -129,15 +117,10 @@ public class BasicListOfProducts implements ListOfProducts {
 
     @Override
     public double getSumDiscountPricesOfAllProducts() {
-        double sum = 0;
-
-        for (Product product : this.listOfProducts) {
-            //ignore nulls
-            if (Objects.isNull(product))
-                break;
-
-            sum += product.getDiscountPrice();
-        }
+        double sum = Arrays.stream(this.listOfProducts)
+                .filter(Objects::nonNull)
+                .mapToDouble(Product::getDiscountPrice)
+                .sum();
 
         return Math.round(sum * Math.pow(10, 2))
                 / Math.pow(10, 2);
@@ -145,60 +128,25 @@ public class BasicListOfProducts implements ListOfProducts {
 
     @Override
     public double getSumPricesOfAllProducts() {
-        double sum = 0;
-
-        for (Product product : this.listOfProducts) {
-            //ignore nulls
-            if (Objects.isNull(product))
-                break;
-
-            sum += product.getPrice();
-        }
+        double sum = Arrays.stream(this.listOfProducts)
+                .filter(Objects::nonNull)
+                .mapToDouble(Product::getPrice)
+                .sum();
 
         return Math.round(sum * Math.pow(10, 2))
                 / Math.pow(10, 2);
     }
 
     public Optional<Product> getCheapestProduct() {
-        //cheapest element is optional because list of products can be empty
-        Optional<Product> optionalCheapestProduct = Optional.empty();
-
-        if(Objects.nonNull(this.listOfProducts[0])){
-            optionalCheapestProduct = Optional.of(this.listOfProducts[0]);
-
-            for(Product product: this.listOfProducts) {
-                //after one null there are only nulls
-                if(Objects.isNull(product))
-                    return optionalCheapestProduct;
-
-                if(product.getPrice() < optionalCheapestProduct.get().getPrice())
-                    optionalCheapestProduct = Optional.of(product);
-
-            }
-        }
-
-        return optionalCheapestProduct;
+        return Arrays.stream(this.listOfProducts)
+                .filter(Objects::nonNull)
+                .min(Comparator.comparing(Product::getPrice));
     }
 
     public Optional<Product> getMostExpensiveProduct() {
-        //most expensive element is optional because list of products can be empty
-        Optional<Product> optionalExpensiveProduct = Optional.empty();
-
-        if(Objects.nonNull(this.listOfProducts[0])){
-            optionalExpensiveProduct = Optional.of(this.listOfProducts[0]);
-
-            for(Product product: this.listOfProducts) {
-                //after one null there are only nulls
-                if(Objects.isNull(product))
-                    return optionalExpensiveProduct;
-
-                if(product.getPrice() > optionalExpensiveProduct.get().getPrice())
-                    optionalExpensiveProduct = Optional.of(product);
-
-            }
-        }
-
-        return optionalExpensiveProduct;
+        return Arrays.stream(this.listOfProducts)
+                .filter(Objects::nonNull)
+                .max(Comparator.comparing(Product::getPrice));
     }
 
     @Override
@@ -220,19 +168,19 @@ public class BasicListOfProducts implements ListOfProducts {
         this.availableSortTypes.addAll(List.of(sortProducts));
     }
 
+    private Optional<SortProducts> tryToGetSortProductsFromAvailableSortTypes(String sortType) {
+        return this.availableSortTypes.stream()
+                .filter(Objects::nonNull)
+                .filter(sortProducts -> sortProducts.getSortType().equals(sortType))
+                .findFirst();
+    }
     @Override
     public void sort(String sortType) throws Exception {
-        boolean sortTypeIsAvailable = false;
+        Optional<SortProducts> optionalSortProducts = tryToGetSortProductsFromAvailableSortTypes(sortType);
 
-        for(SortProducts sortProducts : this.availableSortTypes) {
-            if(sortProducts.getSortType().equals(sortType)) {
-                sortTypeIsAvailable = true;
-                sortProducts.sort(this.listOfProducts);
-                break;
-            }
-        }
-
-        if(!sortTypeIsAvailable)
+        if(optionalSortProducts.isEmpty())
             throw new Exception("BasicListOfProducts cant find expected sortType");
+
+        optionalSortProducts.get().sort(this.listOfProducts);
     }
 }
