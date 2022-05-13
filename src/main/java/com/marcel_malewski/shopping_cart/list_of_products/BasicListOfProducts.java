@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 import java.util.*;
+import java.util.stream.IntStream;
 
 @Getter
 @ToString
@@ -25,24 +26,16 @@ public class BasicListOfProducts implements ListOfProducts {
         this.availableSortTypes = new HashSet<>(List.of(sortProducts));
     }
 
-    private OptionalInt getIndexOfEmptySpace(Product[] listOfProducts) {
-        OptionalInt optionalIndex = OptionalInt.empty();
-
-        for(int i=0; i<listOfProducts.length; i++) {
-            if(Objects.nonNull(listOfProducts[i]))
-                continue;
-
-            optionalIndex = OptionalInt.of(i);
-            break;
-        }
-
-        return optionalIndex;
+    private OptionalInt getIndexOfEmptySpace() {
+        return IntStream.range(0, this.listOfProducts.length)
+                .filter(i -> Objects.isNull(this.listOfProducts[i]))
+                .findFirst();
     }
 
     @Override
     public void addProduct(Product newProduct) {
         //try to get index of empty space
-        OptionalInt optionalIndex = getIndexOfEmptySpace(this.listOfProducts);
+        OptionalInt optionalIndex = getIndexOfEmptySpace();
 
         if(optionalIndex.isEmpty()) {
             //expand list of products
@@ -54,20 +47,11 @@ public class BasicListOfProducts implements ListOfProducts {
         this.listOfProducts[optionalIndex.getAsInt()] = newProduct;
     }
 
-    private Optional<Integer> getIndexOfProduct(Product product) {
-        Optional<Integer> optionalIndexOfProduct = Optional.empty();
-
-        for(int i=0; i<this.listOfProducts.length; i++) {
-            if(Objects.isNull(this.listOfProducts[i]))
-                break;
-
-            if (!this.listOfProducts[i].equals(product))
-                continue;
-
-            optionalIndexOfProduct = Optional.of(i);
-        }
-
-        return optionalIndexOfProduct;
+    private OptionalInt getIndexOfProduct(Product product) {
+        return IntStream.range(0, this.listOfProducts.length)
+                .filter(i -> Objects.nonNull(this.listOfProducts[i]))
+                .filter(i -> this.listOfProducts[i].equals(product))
+                .findFirst();
     }
 
     private Product[] getListOfProductsWithoutRedundantNulls() {
@@ -75,16 +59,10 @@ public class BasicListOfProducts implements ListOfProducts {
     }
 
     private int currentNumberOfEmptySpaces() {
-        int numberOfEmptySpaces = 0;
-
-        for (Product listOfProduct : this.listOfProducts) {
-            if(Objects.nonNull(listOfProduct))
-                continue;
-
-            numberOfEmptySpaces++;
-        }
-
-        return numberOfEmptySpaces;
+        return Arrays.stream(this.listOfProducts)
+                .filter(Objects::isNull)
+                .toArray()
+                .length;
     }
 
     private void cleanListOfProductsFromRedundantFreeSpaces() {
@@ -99,12 +77,12 @@ public class BasicListOfProducts implements ListOfProducts {
 
     @Override
     public boolean removeProduct(Product productToDelete){
-        Optional<Integer> optionalIndexOfProduct = getIndexOfProduct(productToDelete);
+        OptionalInt optionalIndexOfProduct = getIndexOfProduct(productToDelete);
 
         if(optionalIndexOfProduct.isEmpty())
             return false;
 
-        this.listOfProducts[optionalIndexOfProduct.get()] = null;
+        this.listOfProducts[optionalIndexOfProduct.getAsInt()] = null;
 
         cleanListOfProductsFromRedundantFreeSpaces();
 
