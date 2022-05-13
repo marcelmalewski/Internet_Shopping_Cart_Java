@@ -6,8 +6,6 @@ import com.marcel_malewski.shopping_cart.list_of_products.ListOfProducts;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class SpecialOfferThirtyPercentForProductTest {

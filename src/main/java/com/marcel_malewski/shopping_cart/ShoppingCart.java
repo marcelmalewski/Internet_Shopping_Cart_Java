@@ -67,19 +67,13 @@ public class ShoppingCart {
         this.currentSortType = "default";
     }
 
-    private boolean checkIsSortTypeIsAvailable(String sortType) {
-        boolean sortTypeIsAvailable = false;
-
-        for(SortProducts sortProducts : this.listOfProducts.getAvailableSortTypes()) {
-            if(sortProducts.getSortType().equals(sortType))
-                sortTypeIsAvailable = true;
-        }
-
-        return sortTypeIsAvailable;
+    private boolean sortTypeIsAvailable(String sortType) {
+        return this.listOfProducts.getAvailableSortTypes().stream()
+                .anyMatch(availableSortProducts -> availableSortProducts.getSortType().equals(sortType));
     }
 
     public void sort(String newSortType) throws Exception {
-        if(!checkIsSortTypeIsAvailable(newSortType))
+        if(!sortTypeIsAvailable(newSortType))
             throw new Exception("shopping cart cant find expected sortType");
 
         this.currentSortType = newSortType;
@@ -94,14 +88,16 @@ public class ShoppingCart {
     public void applySpecialOffers(SpecialOfferOrder ... specialOfferOrders) throws Exception {
         //array of concreteCommands
         //return special offer that were not used
-        for(SpecialOfferOrder specialOfferOrder : specialOfferOrders) {
-            if(this.currentSpecialOffers.contains(specialOfferOrder.specialOffer().getName()))
-                break;
+//        for(SpecialOfferOrder specialOfferOrder : specialOfferOrders) {
+//            if(this.currentSpecialOffers.contains(specialOfferOrder.specialOffer().getName()))
+//                break;
+//
+//            if(specialOfferOrder.execute(this.listOfProducts)){
+//                this.currentSpecialOffers.add(specialOfferOrder.specialOffer().getName());
+//            }
+//        }
 
-            if(specialOfferOrder.execute(this.listOfProducts)){
-                this.currentSpecialOffers.add(specialOfferOrder.specialOffer().getName());
-            }
-        }
+        //stream for each
     }
 
     //we sort only when we return elements
