@@ -3,6 +3,7 @@ package com.marcel_malewski.shopping_cart.list_of_products;
 import com.marcel_malewski.shopping_cart.Product;
 import com.marcel_malewski.shopping_cart.list_of_products.sort.SortProducts;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 import java.util.*;
@@ -10,6 +11,7 @@ import java.util.stream.IntStream;
 
 @Getter
 @ToString
+@Setter
 public class BasicListOfProducts implements ListOfProducts {
     private Product[] listOfProducts;
     private final HashSet<SortProducts> availableSortTypes;

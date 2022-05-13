@@ -6,8 +6,6 @@ import com.marcel_malewski.shopping_cart.list_of_products.ListOfProducts;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Objects;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class SpecialOfferAbove300plnTest {
@@ -32,6 +30,24 @@ class SpecialOfferAbove300plnTest {
 
         Product[] expectedResult = new Product[5];
         expectedResult[0] = new Product("1", "test", 1000, 950);
+        expectedResult[1] = new Product("2", "test", 10, 9.5);
+
+
+        assertArrayEquals(expectedResult, this.basicListOfProducts.getListOfProducts());
+    }
+
+    @Test
+    void testIfProductAfterPromotionShouldBeOnMinusIs0() {
+        Product product1 = new Product("1", "test", 1000, 10);
+        Product product2 = new Product("2", "test", 10);
+
+        this.basicListOfProducts.addProduct(product1);
+        this.basicListOfProducts.addProduct(product2);
+
+        this.specialOfferAbove300pln.apply(this.basicListOfProducts);
+
+        Product[] expectedResult = new Product[5];
+        expectedResult[0] = new Product("1", "test", 1000, 0);
         expectedResult[1] = new Product("2", "test", 10, 9.5);
 
 

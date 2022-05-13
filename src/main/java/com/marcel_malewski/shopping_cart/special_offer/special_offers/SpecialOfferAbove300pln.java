@@ -5,7 +5,10 @@ import com.marcel_malewski.shopping_cart.list_of_products.ListOfProducts;
 import lombok.Getter;
 import lombok.ToString;
 
+import javax.swing.plaf.IconUIResource;
+import java.util.Arrays;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 @ToString
 @Getter
@@ -27,11 +30,17 @@ public class SpecialOfferAbove300pln implements SpecialOffer {
 
             if(product.getDiscountPrice() - fivePercentOfPrice < 0){
                 product.setDiscountPrice(0);
-                break;
+                continue;
             }
 
             product.setDiscountPrice(product.getDiscountPrice() - fivePercentOfPrice);
         }
+    }
+
+    private boolean listOfProductsContainsFreeProducts(Product[] listOfProducts) {
+        return Arrays.stream(listOfProducts)
+                .filter(Objects::nonNull)
+                .anyMatch(product -> product.getDiscountPrice() == 0);
     }
 
     @Override
@@ -40,15 +49,7 @@ public class SpecialOfferAbove300pln implements SpecialOffer {
         if(listOfProducts.getSumPricesOfAllProducts() < 300)
             return false;
 
-        //is some product is already free we can not use this special offer
-        for (Product product : listOfProducts.getListOfProducts()) {
-            //ignore nulls
-            if(Objects.isNull(product))
-                break;
-
-            if(product.getDiscountPrice() == 0)
-                return false;
-        }
-        return true;
+        //if some product is already free we can not use this special offer
+        return !listOfProductsContainsFreeProducts(listOfProducts.getListOfProducts());
     }
 }

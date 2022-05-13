@@ -11,6 +11,7 @@ public interface ListOfProducts {
     boolean removeProduct(Product product);
 
     Product[] getListOfProducts();
+    void setListOfProducts(Product[] listOfProducts);
     HashSet<SortProducts> getAvailableSortTypes();
     Product[] getProducts(int numberOfProducts);
     Optional<Product> getCheapestProduct();

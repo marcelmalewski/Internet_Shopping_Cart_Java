@@ -17,18 +17,11 @@ public class SpecialOfferAbove2Products implements SpecialOffer {
         this.name = "specialOfferAbove2Products";
     }
 
-    private Product[] getFilteredListOfProducts(int numberOfNotFreeProducts, Product[] listOfProducts) {
-        Product[] filteredListOfProducts = new Product[numberOfNotFreeProducts];
-
-        int index = 0;
-        for(Product product : listOfProducts) {
-            if(Objects.isNull(product)) break;
-
-            filteredListOfProducts[index] = product;
-            index++;
-        }
-
-        return filteredListOfProducts;
+    private Product[] getListOfProductsWithoutNullsAndFreeProducts(Product[] listOfProducts) {
+        return Arrays.stream(listOfProducts)
+                .filter(Objects::nonNull)
+                .filter(product -> product.getDiscountPrice() > 0)
+                .toArray(Product[]::new);
     }
 
     private void setProductFreeInOriginalArray(Product[] filteredListOfProducts, Product[] listOfProducts, int finalIndexOfProductToSetFree) throws Exception {
@@ -68,10 +61,7 @@ public class SpecialOfferAbove2Products implements SpecialOffer {
 
     @Override
     public void apply(ListOfProducts listOfProducts) throws Exception {
-        int numberOfNotFreeProducts = countNumberOfNotFreeProducts(listOfProducts.getListOfProducts());
-
-        //remove nulls and free products from list
-        Product[] filteredListOfProducts = getFilteredListOfProducts(numberOfNotFreeProducts, listOfProducts.getListOfProducts());
+        Product[] filteredListOfProducts = getListOfProductsWithoutNullsAndFreeProducts(listOfProducts.getListOfProducts());
 
         //sort list descending by price
         Comparator<Product> productComparator
@@ -85,19 +75,11 @@ public class SpecialOfferAbove2Products implements SpecialOffer {
     }
 
     private int countNumberOfNotFreeProducts(Product[] listOfProducts) {
-        int numberOfProducts = 0;
-
-        for(Product product : listOfProducts) {
-            if(Objects.isNull(product))
-                break;
-
-            if(product.getDiscountPrice() == 0)
-                continue;
-
-            numberOfProducts++;
-        }
-
-        return numberOfProducts;
+        return Arrays.stream(listOfProducts)
+                .filter(Objects::nonNull)
+                .filter(product -> product.getDiscountPrice() > 0)
+                .toArray()
+                .length;
     }
 
     @Override

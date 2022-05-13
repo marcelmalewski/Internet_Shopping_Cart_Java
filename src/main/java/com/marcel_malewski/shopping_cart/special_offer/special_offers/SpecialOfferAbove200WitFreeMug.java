@@ -5,6 +5,7 @@ import com.marcel_malewski.shopping_cart.list_of_products.ListOfProducts;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 @ToString
@@ -23,15 +24,10 @@ public class SpecialOfferAbove200WitFreeMug implements SpecialOffer {
     }
 
     private boolean checkIfThereIsFreeMugAlready(Product[] listOfProducts) {
-        for(Product product : listOfProducts) {
-            //ignore nulls
-            if(Objects.isNull(product))
-                break;
-
-            if(product.getName().equals("Mug") && product.getDiscountPrice() == 0)
-                return true;
-        }
-        return false;
+        return Arrays.stream(listOfProducts)
+                .filter(Objects::nonNull)
+                .filter(product -> product.getName().equals("Mug"))
+                .anyMatch(product -> product.getDiscountPrice() == 0);
     }
 
     @Override
