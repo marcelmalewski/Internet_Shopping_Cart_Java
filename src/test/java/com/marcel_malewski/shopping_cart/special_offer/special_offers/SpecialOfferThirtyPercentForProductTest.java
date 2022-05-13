@@ -20,7 +20,7 @@ class SpecialOfferThirtyPercentForProductTest {
     }
 
     @Test
-    void testIfSpecialOfferThirtyPercentForProductApplyWorksCorrect() throws Exception {
+    void testIfSpecialOfferThirtyPercentForProductApplyWorksCorrect() {
         //Client
         Product product1 = new Product("1", "test", 10);
         Product product2 = new Product("2", "test", 10);
@@ -28,13 +28,35 @@ class SpecialOfferThirtyPercentForProductTest {
         this.basicListOfProducts.addProduct(product1);
         this.basicListOfProducts.addProduct(product2);
 
-        SpecialOffer specialOfferThirtyPercentForProduct =
+        this.specialOfferThirtyPercentForProduct =
                 new SpecialOfferThirtyPercentForProduct(product1);
+
         specialOfferThirtyPercentForProduct.apply(this.basicListOfProducts);
 
         Product[] expectedResult = new Product[5];
         expectedResult[0] = new Product("1", "test", 10, 7);
         expectedResult[1] = new Product("2", "test", 10);
+
+        assertArrayEquals(expectedResult, this.basicListOfProducts.getListOfProducts());
+    }
+
+    @Test
+    void testIfProductAfterPromotionShouldBeOnMinusIs0() {
+        Product product1 = new Product("1", "test", 1000, 10);
+        Product product2 = new Product("2", "test", 10);
+
+        this.basicListOfProducts.addProduct(product1);
+        this.basicListOfProducts.addProduct(product2);
+
+        this.specialOfferThirtyPercentForProduct =
+                new SpecialOfferThirtyPercentForProduct(product1);
+
+        this.specialOfferThirtyPercentForProduct.apply(this.basicListOfProducts);
+
+        Product[] expectedResult = new Product[5];
+        expectedResult[0] = new Product("1", "test", 1000, 0);
+        expectedResult[1] = new Product("2", "test", 10);
+
 
         assertArrayEquals(expectedResult, this.basicListOfProducts.getListOfProducts());
     }

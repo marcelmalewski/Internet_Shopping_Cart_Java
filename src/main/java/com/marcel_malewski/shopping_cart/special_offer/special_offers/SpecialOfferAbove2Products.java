@@ -25,11 +25,11 @@ public class SpecialOfferAbove2Products implements SpecialOffer {
     }
 
     private void setProductFreeInOriginalArray(Product[] filteredListOfProducts, Product[] listOfProducts, int finalIndexOfProductToSetFree) throws Exception {
+        //one more time check if indexOfProductsToSetFree is correct
         OptionalInt indexOfProductInOriginalList = IntStream.range(0, listOfProducts.length)
                 .filter(a -> filteredListOfProducts[finalIndexOfProductToSetFree].equals(listOfProducts[a]))
                 .findFirst();
 
-        //komentarz
         if(indexOfProductInOriginalList.isEmpty())
             throw new Exception("cant get index of product");
 
@@ -44,17 +44,14 @@ public class SpecialOfferAbove2Products implements SpecialOffer {
             if(filteredListOfProducts[i].getDiscountPrice() == 0 || filteredListOfProducts[i+1].getDiscountPrice() == 0 )
                 break;
 
-            //komentarz
-            if(indexOfProductToSetFree <= i + 1)
-                break;
-
-            //we setDiscountPrice to zero for cheapest product
+            //we setDiscountPrice to zero for current cheapest product
             final int finalIndexOfProductToSetFree = indexOfProductToSetFree;
 
             filteredListOfProducts[finalIndexOfProductToSetFree].setDiscountPrice(0);
 
             setProductFreeInOriginalArray(filteredListOfProducts, listOfProducts, finalIndexOfProductToSetFree);
 
+            //setting products free is from end of list to beginning of the list
             indexOfProductToSetFree--;
         }
     }
@@ -84,9 +81,7 @@ public class SpecialOfferAbove2Products implements SpecialOffer {
 
     @Override
     public boolean canApply(ListOfProducts listOfProducts) {
-        int numberOfNotFreeProducts = countNumberOfNotFreeProducts(listOfProducts.getListOfProducts());
-
         //we need at least 3 not free products
-        return numberOfNotFreeProducts > 2;
+        return countNumberOfNotFreeProducts(listOfProducts.getListOfProducts()) > 2;
     }
 }

@@ -5,6 +5,7 @@ import com.marcel_malewski.shopping_cart.Product;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 @ToString
@@ -31,6 +32,7 @@ public class SpecialOfferThirtyPercentForProduct implements SpecialOffer {
 
                 if(product.getDiscountPrice() - thirtyPercentOfPrice < 0){
                     product.setDiscountPrice(0);
+                    //discount only one product
                     break;
                 }
 
@@ -41,17 +43,15 @@ public class SpecialOfferThirtyPercentForProduct implements SpecialOffer {
         }
     }
 
+    private boolean listOfProductsContainsProductAndProductIsNotFree(Product[] listOfProducts) {
+        return Arrays.stream(listOfProducts)
+                .filter(Objects::nonNull)
+                .filter(product -> product.getName().equals(this.product.getName()))
+                .anyMatch(product -> product.getDiscountPrice() > 0);
+    }
+
     @Override
     public boolean canApply(ListOfProducts listOfProducts) {
-        for (Product product : listOfProducts.getListOfProducts()) {
-            if(Objects.isNull(product))
-                break;
-
-            //discount is for specific product so first this product has to be in list of products and can not be free
-            if(product.getName().equals(this.product.getName()) && product.getDiscountPrice() > 0) {
-                return true;
-            }
-        }
-        return false;
+        return listOfProductsContainsProductAndProductIsNotFree(listOfProducts.getListOfProducts());
     }
 }

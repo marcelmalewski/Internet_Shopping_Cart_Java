@@ -44,7 +44,6 @@ public class ShoppingCart {
         return listOfProducts.getCheapestProduct();
     }
 
-    //here we combine some methods of listOfProducts
     public Product[] getCheapestProducts(int numberOfProducts) throws Exception {
         ListOfProducts tempListOfProducts = this.listOfProducts;
         tempListOfProducts.sort("ascByPrice");
@@ -57,7 +56,6 @@ public class ShoppingCart {
         return listOfProducts.getMostExpensiveProduct();
     }
 
-    //here we combine some methods of listOfProducts
     public Product[] getMostExpensiveProducts(int numberOfProducts) throws Exception {
         ListOfProducts tempListOfProducts = this.listOfProducts;
         tempListOfProducts.sort("descByPrice");
