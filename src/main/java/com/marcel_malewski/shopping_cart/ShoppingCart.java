@@ -85,19 +85,19 @@ public class ShoppingCart {
     }
 
     //invoker
-    public void applySpecialOffers(SpecialOfferOrder ... specialOfferOrders) throws Exception {
-        //array of concreteCommands
-        //return special offer that were not used
-//        for(SpecialOfferOrder specialOfferOrder : specialOfferOrders) {
-//            if(this.currentSpecialOffers.contains(specialOfferOrder.specialOffer().getName()))
-//                break;
-//
-//            if(specialOfferOrder.execute(this.listOfProducts)){
-//                this.currentSpecialOffers.add(specialOfferOrder.specialOffer().getName());
-//            }
-//        }
+    public void applySpecialOffers(SpecialOfferOrder ... specialOfferOrders) {
+        Arrays.stream(specialOfferOrders)
+                .filter(specialOfferOrder -> !this.currentSpecialOffers.contains(specialOfferOrder.specialOffer().getName()))
+                .forEach(specialOfferOrder -> {
+                    try {
+                        if(!specialOfferOrder.execute(this.listOfProducts))
+                            return;
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
 
-        //stream for each
+                    this.currentSpecialOffers.add(specialOfferOrder.specialOffer().getName());
+                });
     }
 
     //we sort only when we return elements

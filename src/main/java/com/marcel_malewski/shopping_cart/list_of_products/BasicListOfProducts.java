@@ -36,7 +36,6 @@ public class BasicListOfProducts implements ListOfProducts {
 
     @Override
     public void addProduct(Product newProduct) {
-        //try to get index of empty space
         OptionalInt optionalIndex = getIndexOfEmptySpace();
 
         if(optionalIndex.isEmpty()) {
