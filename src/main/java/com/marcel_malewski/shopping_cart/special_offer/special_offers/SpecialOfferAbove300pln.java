@@ -21,20 +21,26 @@ public class SpecialOfferAbove300pln implements SpecialOffer {
 
     @Override
     public void apply(ListOfProducts listOfProducts) {
-        for (Product product : listOfProducts.getListOfProducts()) {
-            if(Objects.isNull(product))
-                break;
-            //in case some product already had some special offer
-            //count 5 percent of original price
-            double fivePercentOfPrice = product.getPrice() * 0.05;
+        listOfProducts.setListOfProducts(
+                Arrays.stream(listOfProducts.getListOfProducts())
+                        .map(product -> {
+                            if(Objects.isNull(product))
+                                return null;
 
-            if(product.getDiscountPrice() - fivePercentOfPrice < 0){
-                product.setDiscountPrice(0);
-                continue;
-            }
+                            //in case some product already had some special offer
+                            //count 5 percent of original price
+                            double fivePercentOfPrice = product.getPrice() * 0.05;
 
-            product.setDiscountPrice(product.getDiscountPrice() - fivePercentOfPrice);
-        }
+                            if(product.getDiscountPrice() - fivePercentOfPrice < 0){
+                                product.setDiscountPrice(0);
+                                return product;
+                            }
+
+                            product.setDiscountPrice(product.getDiscountPrice() - fivePercentOfPrice);
+                            return product;
+                        })
+                        .toArray(Product[]::new)
+        );
     }
 
     private boolean listOfProductsContainsFreeProducts(Product[] listOfProducts) {

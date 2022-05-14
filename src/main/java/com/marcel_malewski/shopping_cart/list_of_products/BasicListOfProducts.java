@@ -52,7 +52,7 @@ public class BasicListOfProducts implements ListOfProducts {
         return IntStream.range(0, this.listOfProducts.length)
                 .filter(i -> Objects.nonNull(this.listOfProducts[i]))
                 .filter(i -> this.listOfProducts[i].equals(product))
-                .findFirst();
+                .findAny();
     }
 
     private Product[] getListOfProductsWithoutRedundantNulls() {
@@ -151,7 +151,7 @@ public class BasicListOfProducts implements ListOfProducts {
         return this.availableSortTypes.stream()
                 .filter(Objects::nonNull)
                 .filter(sortProducts -> sortProducts.getSortType().equals(sortType))
-                .findFirst();
+                .findAny();
     }
     @Override
     public void sort(String sortType) throws Exception {
