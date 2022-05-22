@@ -60,7 +60,6 @@ public class SpecialOfferAbove2Products implements SpecialOffer {
     public void apply(ListOfProducts listOfProducts) throws Exception {
         Product[] filteredListOfProducts = getListOfProductsWithoutNullsAndFreeProducts(listOfProducts.getListOfProducts());
 
-        //sort list descending by price
         Comparator<Product> productComparator
                 = Comparator.comparing(Product::getPrice).reversed();
 
@@ -81,7 +80,6 @@ public class SpecialOfferAbove2Products implements SpecialOffer {
 
     @Override
     public boolean canApply(ListOfProducts listOfProducts) {
-        //we need at least 3 not free products
         return countNumberOfNotFreeProducts(listOfProducts.getListOfProducts()) > 2;
     }
 }

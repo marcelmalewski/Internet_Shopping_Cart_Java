@@ -17,13 +17,11 @@ public class BasicListOfProducts implements ListOfProducts {
     private final HashSet<SortProducts> availableSortTypes;
 
     public BasicListOfProducts() {
-        //start with 5 free spaces
         this.listOfProducts = new Product[5];
         this.availableSortTypes = new HashSet<>();
     }
 
     public BasicListOfProducts(SortProducts ... sortProducts) {
-        //start with 5 free spaces
         this.listOfProducts = new Product[5];
         this.availableSortTypes = new HashSet<>(List.of(sortProducts));
     }
@@ -39,7 +37,6 @@ public class BasicListOfProducts implements ListOfProducts {
         OptionalInt optionalIndex = getIndexOfEmptySpace();
 
         if(optionalIndex.isEmpty()) {
-            //expand list of products
             this.listOfProducts = Arrays.copyOf(this.listOfProducts, this.listOfProducts.length + 5);
 
             optionalIndex = OptionalInt.of(this.listOfProducts.length - 5);

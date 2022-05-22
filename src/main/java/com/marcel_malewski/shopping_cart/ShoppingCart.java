@@ -28,18 +28,14 @@ public class ShoppingCart {
         this.currentSortType = "default";
     }
 
-    //shoppingCart is only invoker
     public void addProduct(Product newProduct) {
         this.listOfProducts.addProduct(newProduct);
     }
 
-    //shoppingCart is only invoker
-    //return true if product was removed and false if product was not removed
     public boolean removeProduct(Product product) {
         return this.listOfProducts.removeProduct(product);
     }
 
-    //shoppingCart is only invoker
     public Optional<Product> getCheapestProduct() {
         return listOfProducts.getCheapestProduct();
     }
@@ -51,7 +47,6 @@ public class ShoppingCart {
         return tempListOfProducts.getProducts(numberOfProducts);
     }
 
-    //shoppingCart is only invoker
     public Optional<Product> getMostExpensiveProduct() {
         return listOfProducts.getMostExpensiveProduct();
     }
@@ -79,12 +74,10 @@ public class ShoppingCart {
         this.currentSortType = newSortType;
     }
 
-    //shoppingCart is only invoker
     public double getCurrentCostOfShoppingCart() {
         return listOfProducts.getSumDiscountPricesOfAllProducts();
     }
 
-    //invoker
     public void applySpecialOffers(SpecialOfferOrder ... specialOfferOrders) {
         Arrays.stream(specialOfferOrders)
                 .filter(specialOfferOrder -> !this.currentSpecialOffers.contains(specialOfferOrder.specialOffer().getName()))
@@ -100,7 +93,6 @@ public class ShoppingCart {
                 });
     }
 
-    //we sort only when we return elements
     public Product[] getListOfProducts() throws Exception {
         if(currentSortType.equals("default"))
             this.listOfProducts.defaultSort();

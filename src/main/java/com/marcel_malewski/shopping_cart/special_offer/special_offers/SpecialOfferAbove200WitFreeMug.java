@@ -32,11 +32,9 @@ public class SpecialOfferAbove200WitFreeMug implements SpecialOffer {
 
     @Override
     public boolean canApply(ListOfProducts listOfProducts) {
-        //sum of real prices should be higher than 200
         if(listOfProducts.getSumPricesOfAllProducts() < 200)
             return false;
 
-        //in list of products can not be free mug
         return !checkIfThereIsFreeMugAlready(listOfProducts.getListOfProducts());
     }
 }

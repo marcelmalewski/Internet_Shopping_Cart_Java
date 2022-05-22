@@ -51,11 +51,9 @@ public class SpecialOfferAbove300pln implements SpecialOffer {
 
     @Override
     public boolean canApply(ListOfProducts listOfProducts) {
-        //sum of real prices have to be bigger than 300
         if(listOfProducts.getSumPricesOfAllProducts() < 300)
             return false;
 
-        //if some product is already free we can not use this special offer
         return !listOfProductsContainsFreeProducts(listOfProducts.getListOfProducts());
     }
 }
