@@ -14,6 +14,7 @@ Project is created with:
 * Java version: 17.0.1
 * Lombok version: 1.18.24
 * JUnit 5
+* Maven
 
 ## Features
 * Add / remove products.
