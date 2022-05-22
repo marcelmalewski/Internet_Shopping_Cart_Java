@@ -180,21 +180,16 @@ class ShoppingCartTest {
     }
 
     @Test
-    void testIfUsedSpecialOfferIsSaved() throws Exception {
-        //Client
-        //creating shopping cart with two products
+    void testIfUsedSpecialOfferIsSaved() {
         Product Product1 = new Product("1", "test", 1000);
         Product Product2 = new Product("2", "test", 10);
 
-        //add products to shopping cart
         this.shoppingCart.addProduct(Product1);
         this.shoppingCart.addProduct(Product2);
 
-        //create special offer order and special offer
         SpecialOffer specialOfferAbove300pln = new SpecialOfferAbove300pln();
         SpecialOfferOrder applySpecialOffer1 = new ApplySpecialOffer(specialOfferAbove300pln);
 
-        //apply special offers orders
         this.shoppingCart.applySpecialOffers(applySpecialOffer1);
 
         String expectedResult = "specialOfferAbove300pln";
@@ -203,22 +198,17 @@ class ShoppingCartTest {
     }
 
     @Test
-    void testIfTwoSameSpecialOffersCanNotBeSaved() throws Exception {
-        //Client
-        //creating shopping cart with two products
+    void testIfTwoSameSpecialOffersCanNotBeSaved() {
         Product Product1 = new Product("1", "test", 1000);
         Product Product2 = new Product("2", "test", 10);
 
-        //add products to shopping cart
         this.shoppingCart.addProduct(Product1);
         this.shoppingCart.addProduct(Product2);
 
-        //create special offer order and special offer
         SpecialOffer specialOfferAbove300pln = new SpecialOfferAbove300pln();
         SpecialOfferOrder applySpecialOffer1 = new ApplySpecialOffer(specialOfferAbove300pln);
         SpecialOfferOrder applySpecialOffer2 = new ApplySpecialOffer(specialOfferAbove300pln);
 
-        //apply special offers orders
         this.shoppingCart.applySpecialOffers(applySpecialOffer1, applySpecialOffer2);
 
         int expectedResult = 1;
@@ -228,8 +218,7 @@ class ShoppingCartTest {
     }
 
     @Test
-    void testIfSpecialOfferCanBeUsed() throws Exception {
-        //Client
+    void testIfSpecialOfferCanBeUsed() {
         Product product1 = new Product("1", "test", 1000);
         Product product2 = new Product("2", "test", 10);
 
@@ -249,8 +238,7 @@ class ShoppingCartTest {
     }
 
     @Test
-    void testIfTwoSpecialOffersCanBeUsed() throws Exception {
-        //Client
+    void testIfTwoSpecialOffersCanBeUsed() {
         Product product1 = new Product("1", "test", 1000);
         Product product2 = new Product("2", "test", 10);
 
@@ -274,7 +262,6 @@ class ShoppingCartTest {
 
     @Test
     void testIfGetListOfProductsWorks() {
-        //Client
         Product product1 = new Product("1", "test", 1000);
         Product product2 = new Product("2", "test", 10);
 
